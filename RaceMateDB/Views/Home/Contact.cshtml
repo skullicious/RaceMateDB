@@ -1,0 +1,22 @@
+﻿
+@model RaceMateDB.Models.ContactModel
+@{
+    ViewBag.Title = "Contact";
+}
+
+<h2>@ViewBag.Title.</h2>
+<h3>@Model.Message</h3>
+
+
+<address>
+    @Model.AddressLine1 </br>
+    @Model.AddressLine2 </br>
+    @Model.AddressLine3 </br>
+    @Model.AddressLine4 </br>
+</address>
+
+
+<address>
+    <strong>Support:</strong>   <a href="mailto:@Model.MarketingEMail">@Model.MarketingEMail</a><br />
+    <strong>Marketing:</strong> <a href="mailto:@Model.SupportEmail">@Model.SupportEmail</a>
+</address>

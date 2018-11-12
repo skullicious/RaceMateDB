@@ -1,0 +1,16 @@
+﻿
+
+@model RaceMateDB.Models.CourseModel
+
+
+@{
+    ViewBag.Title = "ShowEvents";
+}
+
+<h2>Events for @Model.Name </h2>
+
+@Html.Partial("_Events", @Model.Events)
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { courseId = Model.Id })
+</p>
