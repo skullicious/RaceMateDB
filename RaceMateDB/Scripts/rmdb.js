@@ -26,19 +26,16 @@ $(function () {
         $.ajax(options).done(function (data)   //response from server is the DATA object.
         {
             var $target = $($form.attr("data-rmdb-target"));        //$target gets target/DOM element from identifier
-            var $newHtml = $(data);            
-            $target.replaceWith($newHtml);                                  //replace target with html data back from server
-            $newHtml.effect("highlight");                       //WHY DOES THIS ONLY WORK WITH -- <section class="content-wrapper main-content clear-fix">
+            var $newHtml = $(data);                  
+            $target.replaceWith($newHtml);                                 //replace target with html data back from server
+            $newHtml.find("div.ResultHighlightRibbon").effect("highlight");                      //WHY DOES THIS ONLY WORK WITH -- <section class="content-wrapper main-content clear-fix">
        
         });
 
         return false;                                            //prevent browser default of redrawing page by return false?                                                
 
     };
-
-
-
-
+        
 
     var createAutocomplete = function () {
 
@@ -69,8 +66,7 @@ $(function () {
         $form.submit();  //submit event
 
     };
-
-
+    
 
     var getPage = function () {
 
@@ -88,7 +84,10 @@ $(function () {
         $.ajax(options).done(function (data) {                 //pump options into ajax Async request  and DONE output DATA object
 
             var target = $a.parents("div.pagedList").attr("data-rmdb-target");  // target Anchors "pagedList Div" attribute and "data target"" attr? IE EXTRACTS RIDERLIST
-            $(target).replaceWith(data);    //replace target(s) withh data from ajax method
+            var $newHtml = $(data);      
+            $(target).replaceWith($newHtml);    //replace target(s) with data from ajax method            
+            $newHtml.find("div.ResultHighlightRibbon").effect("highlight");  
+
 
         });
 

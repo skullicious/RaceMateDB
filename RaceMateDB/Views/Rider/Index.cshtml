@@ -1,10 +1,10 @@
 ﻿@model IPagedList<RiderModel>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Riders";
 }
 
-<h2>Index</h2>
+<h2>Riders</h2>
 
 @*
 
@@ -35,10 +35,12 @@
 
 @*wire this up to rmdb.js*@
 
+
+
 <form method="get" action="@Url.Action("Index")"
       data-rmdb-ajax="true" data-rmdb-target="#riderList">
 
-    <input type="search" name="searchTerm" data-rmdb-autocomplete="@Url.Action("Autocomplete")" /> 
+    <input type="search" name="searchTerm" data-rmdb-autocomplete="@Url.Action("Autocomplete")" />
     <input type="submit" value="Search By Name" />
 </form>
 
@@ -47,6 +49,8 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+
 
 
 @Html.Partial("_Riders", Model)

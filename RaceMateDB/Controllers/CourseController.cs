@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using RaceMateDB.Filters;
 using RaceMateDB.Models;
+using PagedList;
 
 namespace RaceMateDControllers
 {
@@ -17,19 +18,35 @@ namespace RaceMateDControllers
        
 
         // GET: Course
-        public ActionResult Index(string searchTerm = null)
+        public ActionResult Index(string searchTerm = null, int page = 1)
         {
 
-            //  var model = _db.CourseModels.ToList();
-           
-            var model =
-              from r in _db.CourseModels
-              where searchTerm == null || r.Name.Contains(searchTerm)
-              orderby r.Name ascending
-              select r;
-          
+            //  var model = _db.CourseModels.ToList();           
+            //var model =
+            //  from r in _db.CourseModels
+            //  where searchTerm == null || r.Name.Contains(searchTerm)
+            //  orderby r.Name ascending
+            //  select r;
+
+
+            var model = _db.CourseModels
+                                       .OrderBy(r => r.Name)
+                                       .Where(r => searchTerm == null || r.Name.Contains(searchTerm))
+                                       .ToPagedList(page, 5);   //default page
+            //   .Take(10);                           
+
+
+
+            if (Request.IsAjaxRequest())
+
+            {
+                return PartialView("_Courses", model);
+            }
 
             return View(model);
+
+
+            
         }
 
                      

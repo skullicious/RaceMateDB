@@ -1,0 +1,83 @@
+﻿@model PagedList<CourseModel>
+
+
+
+<div id="courseList">
+
+
+
+    <div class="pagedList" data-rmdb-target="#courseList">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
+       PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions()
+    { HttpMethod = "GET", UpdateTargetId = "courseList"}))                                @*   PagedListRenderOptions.MinimalWithItemCountText) *@
+
+
+
+</div>
+
+
+
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
+        </th>
+
+        <th></th>
+    </tr>
+
+
+
+
+
+
+
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    @*<table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VeloViewerURL)
+            </th>
+            <th></th>
+        </tr>*@
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <div class="ResultHighlightRibbon">
+                        @Html.DisplayFor(modelItem => item.Name)
+                        </div>
+                </td>
+                @*<td>
+                    <div class="ResultHighlightRibbon">
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </div>
+                </td>
+                <td>
+                    <div class="ResultHighlightRibbon">
+                        @Html.DisplayFor(modelItem => item.VeloViewerURL)
+                    </div>
+                </td>*@
+                <td> 
+                    <div class="ResultHighlightRibbon">
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+                        @Html.ActionLink("Events", "CourseEvents", "Event", new { Id = item.Id }, null)
+                    </div>
+</td>
+            </tr>
+        }
+
+    </table>

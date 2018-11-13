@@ -1,0 +1,18 @@
+﻿@model IPagedList<EventModel>
+
+
+
+<form method="get" action="@Url.Action("Index")"
+      data-rmdb-ajax="true" data-rmdb-target="#eventList">
+
+    <input type="search" name="searchTerm" data-rmdb-autocomplete="@Url.Action("Autocomplete")" />
+    <input type="submit" value="Search By Name" />
+</form>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+
+
+@Html.Partial("_Events", Model)

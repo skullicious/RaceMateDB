@@ -7,6 +7,7 @@ using RaceMateDB.Models;
 using System.Data.Entity;
 using RaceMateDB.Repositories;
 using RaceMateDB.ViewModels;
+using PagedList;
 
 namespace RaceMateDB.Controllers
 
@@ -23,20 +24,33 @@ namespace RaceMateDB.Controllers
 
 
         // GET: Event
-        public ActionResult Index(string searchTerm)
+        public ActionResult Index(string searchTerm, int page = 1)
         {
 
 
             // var model = _db.EventModels.ToList();
 
-            var model =
-                        from r in _db.EventModels
-                        where searchTerm == null || r.Name.Contains(searchTerm)
-                        orderby r.Name descending
-                        select r;
+            //var model =
+            //            from r in _db.EventModels
+            //            where searchTerm == null || r.Name.Contains(searchTerm)
+            //            orderby r.Name descending
+            //            select r;
+
+            var model = _db.EventModels
+                                       .OrderBy(r => r.Name)
+                                       .Where(r => searchTerm == null || r.Name.Contains(searchTerm))
+                                       .ToPagedList(page, 5);
+
+
+            if (Request.IsAjaxRequest())
+
+            {
+                return PartialView("_Events", model);
+            }
+
+            return View(model);
 
             
-            return View(model);
                         
          
 
@@ -45,16 +59,37 @@ namespace RaceMateDB.Controllers
 
 
         // GET: Courses Events
-        public ActionResult ShowEvents([Bind(Prefix="id")] int courseId)
+        public ActionResult CourseEvents([Bind(Prefix="id")] int courseId, int page = 1)
         {
-            var course = _db.CourseModels.Find(courseId);
-            if (course != null)
+            //var courseEvents = _db.EventModels.Find(courseId);
+            //if (courseEvents != null)
+            //{
+
+            //    return View(courseEvents);
+
+            //}
+            //return HttpNotFound();
+
+
+            var model = _db.EventModels
+                                      .OrderBy(r => r.Name)
+                                     .Where(r => r.CourseId == courseId)
+                                     .ToPagedList(page, 5);
+
+
+           if (Request.IsAjaxRequest())
+
             {
-                
-                return View(course);
-                    
-             }
-            return HttpNotFound();
+
+              return PartialView("_Events", model);
+               
+            }
+
+           return View(model);
+
+
+
+
 
         }
 

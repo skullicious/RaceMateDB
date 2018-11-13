@@ -242,6 +242,7 @@
     <Content Include="Views\Event\Create.cshtml" />
     <Content Include="Views\Rider\Create.cshtml" />
     <Content Include="Views\Rider\_Riders.cshtml" />
+    <Content Include="Views\Event\CourseEvents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -288,13 +289,13 @@
     <Content Include="Views\Course\Index.cshtml" />
     <Content Include="Views\Rider\Edit.cshtml" />
     <Content Include="Views\Event\Index.cshtml" />
+    <Content Include="Views\Course\_Courses.cshtml" />
     <None Include="Views\Event\Create.bak" />
     <Content Include="Views\Event\Edit.cshtml" />
     <Content Include="Views\Course\Events.cshtml" />
     <Content Include="Views\Course\Create.cshtml" />
     <Content Include="Views\Event\AddEventReview.cshtml" />
     <Content Include="Views\Event\EditEventReview.cshtml" />
-    <Content Include="Views\Event\ShowEvents.cshtml" />
     <Content Include="Views\Event\_Events.cshtml" />
   </ItemGroup>
   <ItemGroup>
