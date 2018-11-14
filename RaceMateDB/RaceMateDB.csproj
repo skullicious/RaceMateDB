@@ -160,6 +160,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Template.cs" />
+    <Compile Include="OAUTHTEST\OAUTHTEST.cs" />
     <Compile Include="Repositories\CourseRepository.cs" />
     <Compile Include="Repositories\EventRepository.cs" />
     <Compile Include="ViewModels\AddEventViewModel.cs" />
@@ -312,7 +313,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="BranchTest\" />
-    <Folder Include="OAUTHTEST\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
