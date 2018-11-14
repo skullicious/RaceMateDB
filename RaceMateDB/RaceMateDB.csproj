@@ -312,6 +312,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="BranchTest\" />
+    <Folder Include="OAUTHTEST\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
