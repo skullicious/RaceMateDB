@@ -160,7 +160,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Template.cs" />
-    <Compile Include="OAUTHTEST\OAUTHTEST.cs" />
     <Compile Include="Repositories\CourseRepository.cs" />
     <Compile Include="Repositories\EventRepository.cs" />
     <Compile Include="ViewModels\AddEventViewModel.cs" />
