@@ -9,6 +9,8 @@ using System.Web.Mvc;
 
 namespace RaceMateDB.Controllers
 {
+
+    [RequireHttps]
     public class HomeController : Controller
     {
 
