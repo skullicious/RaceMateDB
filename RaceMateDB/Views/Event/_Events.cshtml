@@ -3,18 +3,7 @@
 
 <div id="eventList">
 
-
-
-    <div class="pagedList" data-rmdb-target="#eventList">
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
-       PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions()
-    { HttpMethod = "GET", UpdateTargetId = "eventList"}))                                @*   PagedListRenderOptions.MinimalWithItemCountText) *@
-
-
-
-</div>
-
-
+    
 
 <table class="table">
     <tr>
@@ -27,7 +16,6 @@
             @Html.DisplayNameFor(model => model.FirstOrDefault().Date)
         </th>
 
-        <th></th>
     </tr>
 
 
@@ -38,33 +26,46 @@
 
     @foreach (var item in Model)
     {
-    <tr>
+        <tr>
 
-        <td>
-            <div class="ResultHighlightRibbon">
-                @Html.DisplayFor(modelItem => item.Name)
-            </div>
-        </td>
+            <td>
+                <div class="ResultHighlightRibbon">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </div>
+            </td>
 
-        <td>
-            <div class="ResultHighlightRibbon">
-                @Html.DisplayFor(modelItem => item.Date)
-           </div>
-        </td>
+            <td>
+                <div class="ResultHighlightRibbon">
+                    @Html.DisplayFor(modelItem => item.Date)
+                </div>
+            </td>
 
 
-        <td>
-            <div class="ResultHighlightRibbon">
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
-                @Html.ActionLink("View Course", "Details", "Course", new { id = item.CourseId }, null)
-            </div>
-        </td>
-    </tr>
+            <td>
+                <div class="ResultHighlightRibbon">
+
+                    |  @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("View Course", "Details", "Course", new { id = item.CourseId }, null) |
+
+                    @if (@User.IsInRole("Admin"))
+                    {
+                        @Html.ActionLink("Create New", "Create") <text>|</text>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <text>|</text>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }) <text>|</text>
+                    }
+                </div>
+            </td>
+        </tr>
     }
 
 
 </table>
+
+<div class="pagedList" data-rmdb-target="#eventList">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
+   PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions()
+{ HttpMethod = "GET", UpdateTargetId = "eventList"}))                                @*   PagedListRenderOptions.MinimalWithItemCountText) *@
+
+</div>
 
 </div>

@@ -32,6 +32,16 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+
+
+
+
+                    @*@* Add code block to show admin tools when logged is as admin*@
+                   @if (@User.IsInRole("Admin"))
+                    {
+                      <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
+                      }
+                   
                 </ul>
                 @Html.Partial("_LoginPartial")
 

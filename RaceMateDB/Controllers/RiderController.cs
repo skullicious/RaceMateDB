@@ -97,8 +97,8 @@ namespace RaceMateDB.Controllers
         }
 
         // POST: Rider/Create
-        [HttpPost]        
-       
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(RiderModel riderModel)
         {
             if (ModelState.IsValid)
@@ -114,6 +114,7 @@ namespace RaceMateDB.Controllers
         }
 
         // GET: Rider/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int Id)
         {
 
@@ -124,6 +125,7 @@ namespace RaceMateDB.Controllers
 
         // POST: Rider/Edit/5
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int Id, FormCollection collection)
         {
 
@@ -138,17 +140,21 @@ namespace RaceMateDB.Controllers
 
             return View(rider);
         }
-           
-      
+
+
 
         // GET: Rider/Delete/5
+
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int Id)
+
         {
             return View();
         }
 
         // POST: Rider/Delete/5
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int Id, FormCollection collection)
         {
             try

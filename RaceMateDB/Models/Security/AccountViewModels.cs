@@ -79,6 +79,12 @@ namespace RaceMateDB.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        //Instantiate context to access security
+        ApplicationDbContext context = new ApplicationDbContext();
+
+        //Provide default user group for reigstering users.
+        public string DefaultGroup = "User";
     }
 
     public class ResetPasswordViewModel

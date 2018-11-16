@@ -23,6 +23,26 @@ namespace RaceMateDB.Controllers
 
 
 
+
+        //use a data- attribute to wire up this action
+        public ActionResult Autocomplete(string term) //term is supported paramater
+
+        {
+            var model = _db.EventModels
+                .Where(r => r.Name.StartsWith(term))
+                .Take(10)
+                .Select(r => new
+                {
+                    label = r.Name         //project into object with label property - autocomplete has label prop in DOM
+                });
+
+            return Json(model, JsonRequestBehavior.AllowGet);  //serialize into json
+
+
+        }
+
+
+
         // GET: Event
         public ActionResult Index(string searchTerm, int page = 1)
         {
@@ -119,6 +139,7 @@ namespace RaceMateDB.Controllers
 
         // GET: Event/Create
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
 
@@ -134,6 +155,7 @@ namespace RaceMateDB.Controllers
 
         // POST: Event/Create
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(AddEventViewModel addEventViewModel)
         {
             
@@ -230,8 +252,8 @@ namespace RaceMateDB.Controllers
 
         //Get: /Event/Edit/5
 
-            [HttpGet]
-            public ActionResult EditEventReview(int Id)
+        [HttpGet]
+        public ActionResult EditEventReview(int Id)
             {
             var model = _db.EventReviews.Find(Id);
           

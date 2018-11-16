@@ -15,7 +15,28 @@ namespace RaceMateDControllers
     public class CourseController : Controller
     {
         RMDBContext _db = new RMDBContext();
-       
+
+
+
+
+
+        //use a data- attribute to wire up this action
+        public ActionResult Autocomplete(string term) //term is supported paramater
+
+        {
+            var model = _db.CourseModels
+                .Where(r => r.Name.StartsWith(term))
+                .Take(10)
+                .Select(r => new
+                {
+                    label = r.Name         //project into object with label property - autocomplete has label prop in DOM
+                });
+
+            return Json(model, JsonRequestBehavior.AllowGet);  //serialize into json
+
+
+        }
+
 
         // GET: Course
         public ActionResult Index(string searchTerm = null, int page = 1)
@@ -54,12 +75,11 @@ namespace RaceMateDControllers
       //   GET: Course
 
 
-       //   public ActionResult Search(string name = "Hillingdon")
+       
             public ActionResult Search(string name)
              {
-        //  throw new Exception("OH MY GAWD!");
-               
-                           
+      
+                                          
                var message = Server.HtmlEncode(name);
                return Content("We searching for " + name);
 
@@ -68,7 +88,7 @@ namespace RaceMateDControllers
         public ActionResult Events(int Id)
         {
 
-            //  var model = _db.CourseModels.ToList();
+            
             var model =
               from r in _db.EventModels
               where r.CourseId == Id
@@ -80,6 +100,8 @@ namespace RaceMateDControllers
         }
 
         // GET: Course/Create
+
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -88,6 +110,7 @@ namespace RaceMateDControllers
 
         // POST: Course/Create
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(CourseModel courseModel)
         {
             if (ModelState.IsValid)
