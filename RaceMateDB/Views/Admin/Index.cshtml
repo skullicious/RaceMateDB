@@ -1,18 +1,81 @@
-﻿@{
+﻿@model IPagedList<CourseModel>
+
+@{
     ViewBag.Title = "Admin";
+
 }
 
-<h2>Admin</h2>
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
+
+<h2>Admin</h2>  <br />
+
+<h3>Upload Course .csv </h3>
+
+@using (Html.BeginForm("UploadCourseFile", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
     <div>
+        @Html.TextBox("file", "", new { type = "file" }) <br />
+
+        <input type="submit" id="load_data" name="load_data" value="Upload" />
+
+        @ViewBag.Message
+
     </div>
-</body>
-</html>
+
+}
+
+
+
+
+
+
+
+
+
+
+<h3> Upload Results.csv </h3>
+
+
+@using (Html.BeginForm("UploadEventResultsFile", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <div>
+        @Html.TextBox("file", "", new { type = "file" }) <br />
+
+        <input type="submit" id="load_data" name="load_data" value="Upload" />
+
+        @ViewBag.Message
+
+    </div>
+
+}
+
+
+
+
+<h3> Upload Events.csv </h3>
+
+
+@using (Html.BeginForm("UploadEventsFile", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <div>
+        @Html.TextBox("file", "", new { type = "file" }) <br />
+
+        <input type="submit" id="load_data" name="load_data" value="Upload" />
+
+        @ViewBag.Message
+
+    </div>
+
+}
+
+
+
+
+
+
+
+

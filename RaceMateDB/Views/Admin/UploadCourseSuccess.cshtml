@@ -1,0 +1,40 @@
+﻿@model IEnumerable<RaceMateDB.Models.CourseModel>
+
+@{
+    ViewBag.Title = "Success";
+}
+
+<h2>The below courses were successfully added to the RaceMateDB</h2>
+
+<p>
+    @Html.ActionLink("Back to Admin page", "Index")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VeloViewerURL)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VeloViewerURL)
+        </td>      
+    </tr>
+}
+
+</table>

@@ -198,6 +198,10 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\Template.cs" />
+    <Compile Include="Migrations\201811221223260_UpdateCourseModel.cs" />
+    <Compile Include="Migrations\201811221223260_UpdateCourseModel.Designer.cs">
+      <DependentUpon>201811221223260_UpdateCourseModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Security\AccountViewModels.cs" />
     <Compile Include="Models\Security\IdentityModels.cs" />
     <Compile Include="Models\Security\ManageViewModels.cs" />
@@ -266,6 +270,7 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Scripts\csvImport.js" />
     <Content Include="Scripts\DatePickerReady.js" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
@@ -276,7 +281,7 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\rmdb.js" />
     <Content Include="Views\Event\ViewEventReview.cshtml" />
-    <Content Include="Views\Event\results.cshtml" />
+    <Content Include="Views\Event\Results.cshtml" />
     <Content Include="Views\Rider\ViewRiderEvents - Copy.cshtml" />
     <Content Include="Views\Event\_RiderResults.cshtml" />
     <Content Include="Views\Rider\ViewRiderEvents.cshtml" />
@@ -353,6 +358,15 @@
     <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\UploadCourseFile.cshtml" />
+    <Content Include="Views\Admin\Create.cshtml" />
+    <Content Include="Views\Admin\_UploadCourseFile.cshtml" />
+    <Content Include="Views\Course\DeleteConfirmed.cshtml" />
+    <Content Include="Views\Course\Delete.cshtml" />
+    <Content Include="Views\Admin\UploadCourseSuccess.cshtml" />
+    <Content Include="Views\Admin\UploadEventsFile.cshtml" />
+    <Content Include="Views\Admin\_UploadEventsFile.cshtml" />
+    <Content Include="Views\Admin\UploadEventSuccess.cshtml" />
     <None Include="Views\Event\Create.bak" />
     <Content Include="Views\Event\Edit.cshtml" />
     <Content Include="Views\Course\Events.cshtml" />
@@ -375,6 +389,13 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="BranchTest\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="UploadedFiles\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201811221223260_UpdateCourseModel.resx">
+      <DependentUpon>201811221223260_UpdateCourseModel.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

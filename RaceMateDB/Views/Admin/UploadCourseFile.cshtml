@@ -1,0 +1,26 @@
+﻿@model IPagedList<CourseModel>
+
+
+@{
+    ViewBag.Title = "UploadCourseFile";
+
+}
+
+
+<h4>Please check below to ensure data import information is correct...</h4>
+
+
+
+<form method="post" action="@Url.Action("CommitCoursesToDB","Admin")"
+      data-rmdb-ajax="false" data-rmdb-target="#uploadCourseList">
+    <input type="submit" value="Commit to Database" />
+</form>
+
+
+<br />
+
+
+@Html.Partial("_UploadCourseFile", Model)
+
+
+

@@ -144,6 +144,35 @@ namespace RaceMateDControllers
 
 
 
+
+
+        // GET: CourseModels/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            CourseModel courseModel = _db.CourseModels.Find(id);
+            if (courseModel == null)
+            {
+                return HttpNotFound();
+            }
+            return View(courseModel);
+        }
+
+        // POST: CourseModels/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            CourseModel courseModel = _db.CourseModels.Find(id);
+            _db.CourseModels.Remove(courseModel);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
         //LIST FOR TESTING
 
         //static List<CourseModel> _courses = new List<CourseModel>

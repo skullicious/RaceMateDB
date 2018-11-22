@@ -74,7 +74,8 @@ namespace RaceMateDB.Controllers
             var model = _db.ResultModels.Include(e => e.Event)
                                       .Include(e => e.Rider)
                                      //.Where(i => e.Id == id);
-                                     .Where(i => i.RiderModelId == Id);
+                                     .Where(i => i.RiderModelId == Id)
+                                     .OrderByDescending(i=> i.Event.Date);
 
             return View(model);
 

@@ -4,6 +4,7 @@
 
 $(function () {
 
+    
     //function to handle form submission. 
     var ajaxFormSubmit = function () {
 
@@ -66,7 +67,8 @@ $(function () {
         $form.submit();  //submit event
 
     };
-    
+
+          
 
     var getPage = function () {
 
@@ -94,6 +96,7 @@ $(function () {
         return false; //dont default and refresh entire page
     };
 
+    
 
     //find all of these labelled form elements and submit -  saves or submits come to this js instead of submitted to server
     $("form[data-rmdb-ajax='true']").submit(ajaxFormSubmit);
@@ -103,6 +106,7 @@ $(function () {
 
 
     //Main content class is never destroyed.. is part of layout and present every page
-    $(".main-content").on("click",".pagedList a", getPage);   //only register click events on main content and filter to pagedList anchor tags.
+    $(".main-content").on("click", ".pagedList a", getPage);   //only register click events on main content and filter to pagedList anchor tags.
+
 
  });

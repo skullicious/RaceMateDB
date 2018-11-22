@@ -25,9 +25,8 @@
                 </td>
                 <td>
                     <div class="ResultHighlightRibbon">
-
                         | @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                        @Html.ActionLink("View Riders Events", "ViewRiderEvents", new { id = item.Id }) |
+                        @Html.ActionLink("View Riders Results", "ViewRiderEvents", new { id = item.Id }) |
 
                         @if (@User.IsInRole("Admin"))
                         {

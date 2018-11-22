@@ -31,7 +31,7 @@ namespace RaceMateDB.Models
 
         //lzy lod
         public virtual CourseModel Course { get; set; }
-
+        public virtual string CourseName { get; set; } //should this be here??
 
         //lzy lod
         public virtual int CourseId { get; set; }

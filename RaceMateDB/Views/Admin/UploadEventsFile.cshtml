@@ -1,0 +1,22 @@
+﻿@model IPagedList<EventModel>
+
+@{
+    ViewBag.Title = "UploadEventsFile";
+}
+
+<h2>UploadEventFile</h2>
+
+<h4>Please check below to ensure data import information is correct...</h4>
+
+
+
+<form method="post" action="@Url.Action("CommitEventsToDB","Admin")"
+      data-rmdb-ajax="false" data-rmdb-target="#uploadEventList">
+    <input type="submit" value="Commit to Database" />
+</form>
+
+
+<br />
+
+
+@Html.Partial("_UploadEventsFile", Model)
