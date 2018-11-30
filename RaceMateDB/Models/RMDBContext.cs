@@ -15,10 +15,13 @@ namespace RaceMateDB.Models
         public DbSet<ResultModel> ResultModels { get; set; }
         public DbSet<CourseModel> CourseModels { get; set; }
         public DbSet<RiderModel> RiderModels { get; set; }
-     
+       // public DbSet<ClubOrTeamModel> ClubOrTeamModels { get; set; }
+
 
 
     }
+
+
 
 
 }

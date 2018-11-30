@@ -9,10 +9,12 @@
     <input type="submit" value="Search By Name" />
 </form>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@{if (Model.FirstOrDefault() != null)
+        {@Html.Partial("_Events", Model)}
+    else
+    {<h2> Sorry, there are no events for this course...Please check back later... </h2>}
+    }
 
 
 
-@Html.Partial("_Events", Model)
+   

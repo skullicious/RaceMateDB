@@ -8,6 +8,8 @@ using System.Data.Entity;
 using RaceMateDB.Repositories;
 using RaceMateDB.ViewModels;
 using PagedList;
+using System.Net;
+
 
 namespace RaceMateDB.Controllers
 
@@ -47,15 +49,7 @@ namespace RaceMateDB.Controllers
         public ActionResult Index(string searchTerm, int page = 1)
         {
 
-
-            // var model = _db.EventModels.ToList();
-
-            //var model =
-            //            from r in _db.EventModels
-            //            where searchTerm == null || r.Name.Contains(searchTerm)
-            //            orderby r.Name descending
-            //            select r;
-
+                      
             var model = _db.EventModels
                                        .OrderBy(r => r.Name)
                                        .Where(r => searchTerm == null || r.Name.Contains(searchTerm))
@@ -121,12 +115,12 @@ namespace RaceMateDB.Controllers
             var model = _db.ResultModels
                                         .Include(e => e.Event)
                                       .Include(e => e.Rider)
-                                      .Where(i => i.EventModelId == id);                 
-                                 
+                                      .Where(i => i.EventModelId == id);
 
-                                                    
-            return View(model);
 
+           
+                return View(model);
+          
         }
 
 
@@ -285,7 +279,121 @@ namespace RaceMateDB.Controllers
         }
 
 
-      
+
+
+
+
+        // POST: Event/Edit
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public ActionResult Edit(AddEventViewModel addEventViewModel)
+        {
+            if (addEventViewModel.EventId == null )
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+
+            var model = new EventModel()
+
+            {
+                
+                Id = (int)addEventViewModel.EventId,
+                Name = addEventViewModel.EventName,
+                Date = addEventViewModel.Date,
+
+                //Should I be converting this backward and forwards??
+                CourseId = Convert.ToInt32(addEventViewModel.SelectedCourse)
+
+            };
+
+            if (ModelState.IsValid)
+            {
+
+            
+
+                
+                
+                _db.Entry(model).State = EntityState.Modified;
+               _db.SaveChanges();
+                return RedirectToAction("Index", new { id = model.Id});
+
+            }
+
+            return View(addEventViewModel);
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        // GET: EventModels/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            
+            var courseRepo = new CourseRepository();
+            //stick some includes here
+
+            //EventModel editEventModel = _db.EventModels.Find(id);
+            EventModel editEventModel = _db.EventModels
+                                        .Include(i => i.EventResults)
+                                        .Where(i => i.EventResults.FirstOrDefault().EventModelId == id)                                      
+                                        .Single();
+                                                
+            AddEventViewModel addEventViewModel = new AddEventViewModel();
+
+            addEventViewModel.EventId = editEventModel.EventResults.FirstOrDefault().EventModelId;
+            addEventViewModel.Courses = courseRepo.GetCourses();
+            addEventViewModel.EventName = editEventModel.Name;
+            addEventViewModel.Date = editEventModel.Date;
+            addEventViewModel.SelectedCourse = editEventModel.Course.Name;
+                                
+            return View(addEventViewModel);
+                             
+        }
+
+
+        // GET: EventModels/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            EventModel eventModel = _db.EventModels.Find(id);
+            if (eventModel == null)
+            {
+                return HttpNotFound();
+            }
+            return View(eventModel);
+        }
+
+        // POST: EventModels/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            EventModel eventModel = _db.EventModels.Find(id);
+            _db.EventModels.Remove(eventModel);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
+
+
 
         protected override void Dispose(bool disposing)
         {

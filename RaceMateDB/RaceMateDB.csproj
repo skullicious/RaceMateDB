@@ -198,10 +198,11 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\Template.cs" />
-    <Compile Include="Migrations\201811221223260_UpdateCourseModel.cs" />
-    <Compile Include="Migrations\201811221223260_UpdateCourseModel.Designer.cs">
-      <DependentUpon>201811221223260_UpdateCourseModel.cs</DependentUpon>
+    <Compile Include="Migrations\201811301737325_test.cs" />
+    <Compile Include="Migrations\201811301737325_test.Designer.cs">
+      <DependentUpon>201811301737325_test.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClubOrTeamModel.cs" />
     <Compile Include="Models\Security\AccountViewModels.cs" />
     <Compile Include="Models\Security\IdentityModels.cs" />
     <Compile Include="Models\Security\ManageViewModels.cs" />
@@ -228,6 +229,10 @@
     <Compile Include="Models\ResultModel.cs" />
     <Compile Include="Models\RiderModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="App_Data\RaceMateDB.Models.RMDBContext.mdf" />
+    <Content Include="App_Data\RaceMateDB.Models.RMDBContext_log.ldf">
+      <DependentUpon>RaceMateDB.Models.RMDBContext.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -298,6 +303,8 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Event\Delete.cshtml" />
+    <Content Include="Views\Rider\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -367,6 +374,10 @@
     <Content Include="Views\Admin\UploadEventsFile.cshtml" />
     <Content Include="Views\Admin\_UploadEventsFile.cshtml" />
     <Content Include="Views\Admin\UploadEventSuccess.cshtml" />
+    <Content Include="Views\Admin\UploadResultsFile.cshtml" />
+    <Content Include="Views\Admin\_UploadResultsFile.cshtml" />
+    <Content Include="Views\Admin\UploadResultSuccess.cshtml" />
+    <Content Include="Views\Course\Edit.cshtml" />
     <None Include="Views\Event\Create.bak" />
     <Content Include="Views\Event\Edit.cshtml" />
     <Content Include="Views\Course\Events.cshtml" />
@@ -387,14 +398,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="BranchTest\" />
     <Folder Include="Helpers\" />
     <Folder Include="UploadedFiles\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201811221223260_UpdateCourseModel.resx">
-      <DependentUpon>201811221223260_UpdateCourseModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201811301737325_test.resx">
+      <DependentUpon>201811301737325_test.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

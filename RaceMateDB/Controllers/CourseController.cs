@@ -7,6 +7,8 @@ using System.Web.Mvc;
 using RaceMateDB.Filters;
 using RaceMateDB.Models;
 using PagedList;
+using RaceMateDB.Repositories;
+using System.Data.Entity;
 
 namespace RaceMateDControllers
 {
@@ -173,48 +175,54 @@ namespace RaceMateDControllers
         }
 
 
-        //LIST FOR TESTING
-
-        //static List<CourseModel> _courses = new List<CourseModel>
-        //{
-        //    new CourseModel
-        //    {
-        //        CourseID = 1,
-        //        Name = "Hillingdon",
-        //        Description = "Flat with sweeping turns"
-
-        //    },
-
-        //    new CourseModel
-        //    {
-        //        CourseID = 2,
-        //        Name = "Lotus Test Track",
-        //        Description = "Very flat with sweeping turns"
-
-
-        //    },
-
-        //    new CourseModel
-        //    {
-        //        CourseID = 3,
-        //        Name = "Lee Valley Olympic Park",
-        //        Description = "Flat with two short climbs + sweeping turns"
-
-
-        //    },
-
-        //    new CourseModel
-        //    {
-        //        CourseID = 4,
-        //        Name = "Trinity Park",
-        //        Description = "Flat with several sharp 90 degree turns. Very technical."
-
-
-        //    },
-        //};
 
 
 
+        // GET: CourseModels/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }                       
+
+         CourseModel courseModel = _db.CourseModels                                     
+                                .Where(i => i.Id == id)
+                                .Single();
+                       
+
+            return View(courseModel);
+        }
+
+        // POST: CourseModels/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,VeloViewerUrl")] CourseModel courseModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Entry(courseModel).State = EntityState.Modified;
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(courseModel);
+        }
+
+
+
+        protected override void Dispose(bool disposing)
+        {
+            if (_db != null)
+            {
+                _db.Dispose();
+            }
+
+
+            base.Dispose(disposing);
+
+        }
 
     }
 }

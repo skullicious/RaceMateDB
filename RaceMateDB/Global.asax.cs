@@ -14,8 +14,8 @@ namespace RaceMateDB
         protected void Application_Start()
         {
 
-            //DB FIX
-          //  Database.SetInitializer<RaceMateDB.Models.RaceMateDB>(null);
+            //DB FIX Do not build
+         //  Database.SetInitializer<Models.RMDBContext>(null);
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

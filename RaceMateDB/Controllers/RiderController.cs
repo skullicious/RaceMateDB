@@ -85,11 +85,14 @@ namespace RaceMateDB.Controllers
 
         }
 
-        // GET: Rider/Details/5
-        public ActionResult Details(int Id)
-        {
-            return View();
-        }
+        //// GET: Rider/Details/5
+        //public ActionResult Details(int Id)
+        //{
+        //    var model = _db.RiderModels.Include(i => i.ClubOrTeamId);
+                                                                        
+
+        //    return View(model);
+        //}
 
         // GET: Rider/Create
         public ActionResult Create()

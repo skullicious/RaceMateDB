@@ -8,22 +8,7 @@ namespace RaceMateDB.Models
     public class EventModel
     {
 
-        public EventModel()
-        {
-            EventResults = new List<ResultModel>
-            {
-               new ResultModel
-
-               {
-                   RiderModelId = 1,
-                   Position = 0
-                   
-
-               }
-
-            };
-        }
-
+        
         public int Id { get; set; }
         public string Name { get; set; }
         public string Location { get; set; }
@@ -38,13 +23,12 @@ namespace RaceMateDB.Models
 
         public ICollection<EventReview> EventReviews { get; set; }
 
-        public ICollection<ResultModel> EventResults { get; set; }
+        public virtual ICollection<ResultModel> EventResults { get; set; }
 
         public virtual ICollection<RiderModel> RiderModels { get; set; }
 
         public DateTime Date { get; set; }
        
         public bool? HasResult { get; set; }
-
     }
 }

@@ -11,9 +11,12 @@ namespace RaceMateDB.Models
    
         public string Name { get; set; }
       
-
+        
         public ICollection<ResultModel> EventResults { get; set; }
 
         public  ICollection<EventModel> Events { get; set; }
+
+        //lzy lod
+        public virtual int ClubOrTeamId { get; set; }
     }
 }

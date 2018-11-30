@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using RaceMateDB.Models;
 
 namespace RaceMateDB.ViewModels
 {
@@ -25,14 +26,20 @@ namespace RaceMateDB.ViewModels
         public string SelectedCourse { get; set; }
         public IEnumerable<SelectListItem> Courses { get; set; }
 
+        
+       
+        public int ResultId { get; set; }
+
        
 
-
-        
-        
+        public int? EventId { get; set; }
 
 
-        
+
+
+
+
+
 
     }
 }

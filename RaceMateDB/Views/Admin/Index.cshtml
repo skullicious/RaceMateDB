@@ -7,27 +7,25 @@
 
 
 
+    <h2>Admin</h2>  <br />
 
-<h2>Admin</h2>  <br />
+                 
 
-<h3>Upload Course .csv </h3>
+    <h3>Upload Course .csv </h3>
 
-@using (Html.BeginForm("UploadCourseFile", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
+    @using (Html.BeginForm("UploadCourseFile", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
 
-    <div>
-        @Html.TextBox("file", "", new { type = "file" }) <br />
+        <div>
+            @Html.TextBox("file", "", new { type = "file" }) <br />
 
-        <input type="submit" id="load_data" name="load_data" value="Upload" />
+            <input type="submit" id="load_data" name="load_data" value="Upload" />
 
-        @ViewBag.Message
+            @ViewBag.Message
 
-    </div>
+        </div>
 
-}
-
-
-
+    }
 
 
 
@@ -35,43 +33,45 @@
 
 
 
-<h3> Upload Results.csv </h3>
-
-
-@using (Html.BeginForm("UploadEventResultsFile", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-
-    <div>
-        @Html.TextBox("file", "", new { type = "file" }) <br />
-
-        <input type="submit" id="load_data" name="load_data" value="Upload" />
-
-        @ViewBag.Message
-
-    </div>
-
-}
 
 
 
+    <h3> Upload Results.csv </h3> <br />
 
-<h3> Upload Events.csv </h3>
+
+    @using (Html.BeginForm("UploadResultsFile", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+
+        <div>
+            @Html.TextBox("file", "", new { type = "file" }) <br />
+
+            <input type="submit" id="load_data" name="load_data" value="Upload" />
+
+            @ViewBag.Message
+
+        </div>
+
+    }
 
 
-@using (Html.BeginForm("UploadEventsFile", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
 
-    <div>
-        @Html.TextBox("file", "", new { type = "file" }) <br />
 
-        <input type="submit" id="load_data" name="load_data" value="Upload" />
+    <h3> Upload Events.csv </h3>  <br />
 
-        @ViewBag.Message
 
-    </div>
+    @using (Html.BeginForm("UploadEventsFile", "Admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
 
-}
+        <div>
+            @Html.TextBox("file", "", new { type = "file" }) <br />
 
+            <input type="submit" id="load_data" name="load_data" value="Upload" />
+
+            @ViewBag.Message
+
+        </div>
+
+    }
 
 
 

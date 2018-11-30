@@ -1,0 +1,24 @@
+﻿@model IEnumerable<ResultModel>
+
+@{
+    ViewBag.Title = "UploadResultsFile";
+}
+
+<h2>Displaying Results for @Model.FirstOrDefault().EventName</h2>
+
+
+<h4>Please check below to ensure data import information is correct...</h4>
+
+
+
+<form method="post" action="@Url.Action("CommitResultsToDB","Admin")"
+      data-rmdb-ajax="false" data-rmdb-target="#uploadResultList">
+    <input type="submit" value="Commit to Database" />
+</form>
+
+
+<br />
+
+
+@Html.Partial("_UploadResultsFile", Model)
+

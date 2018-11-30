@@ -23,14 +23,9 @@ namespace RaceMateDB.Repositories
                         Text = n.Name.ToString()
                         
                     }).ToList();
+                                           
 
-
-               
-
-             
-
-
-
+                
                 var courseTip = new SelectListItem()
                 {
                     Value = null,
