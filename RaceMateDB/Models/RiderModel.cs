@@ -17,6 +17,6 @@ namespace RaceMateDB.Models
         public  ICollection<EventModel> Events { get; set; }
 
         //lzy lod
-        public virtual int ClubOrTeamId { get; set; }
+        //public virtual int ClubOrTeamId { get; set; }
     }
 }

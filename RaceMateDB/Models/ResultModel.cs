@@ -11,8 +11,8 @@ namespace RaceMateDB.Models
 
 
         public int Id { get; set; }
-        //public virtual int EventModelId { get; set; }
-        //public virtual int RiderModelId { get; set; }
+        public virtual int EventModelId { get; set; }
+        public virtual int RiderModelId { get; set; }
         public int Position { get; set; }
 
         public virtual RiderModel Rider { get; set; }
@@ -29,10 +29,12 @@ namespace RaceMateDB.Models
         public string EventName {get;set;} 
         [NotMapped]
         public string RiderName { get; set; }
-        [NotMapped]
-        public virtual int EventModelId { get; set; }
-        [NotMapped]
-        public virtual int RiderModelId { get; set; }
+
+       //Linq does not like these..  investigate
+        //[NotMapped]
+        //public virtual int EventModelId { get; set; }
+        //[NotMapped]
+        //public virtual int RiderModelId { get; set; }
 
 
 
