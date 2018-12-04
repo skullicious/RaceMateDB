@@ -6,7 +6,9 @@ using System.Web;
 using System.Web.Mvc;
 using RaceMateDB.Models;
 using PagedList;
-
+using System.Net;
+using RaceMateDB.Repositories;
+using RaceMateDB.ViewModels;
 
 namespace RaceMateDB.Controllers
 {
@@ -14,11 +16,7 @@ namespace RaceMateDB.Controllers
     {
 
         RMDBContext _db = new RMDBContext();
-
-
-
-
-
+        
         //use a data- attribute to wire up this action
         public ActionResult Autocomplete(string term) //term is supported paramater
 
@@ -32,25 +30,15 @@ namespace RaceMateDB.Controllers
                 });
 
             return Json(model, JsonRequestBehavior.AllowGet);  //serialize into json
-
-
+            
         }
-
-
+        
         // GET: Rider
         public ActionResult Index(string searchTerm, int page =1)   //add default page for pagelist
         {
-
-
-            //var model =
-            // from r in _db.RiderModels
-            // where searchTerm == null || r.Name.Contains(searchTerm)
-            // orderby r.Name ascending
-            // select r;
-
             //refactored into expression
 
-            var model = _db.RiderModels
+            var model = _db.RiderModels                                        
                                         .OrderBy(r => r.Name)
                                         .Where(r => searchTerm == null || r.Name.Contains(searchTerm))
                                         .ToPagedList(page, 5);   //default page
@@ -72,107 +60,163 @@ namespace RaceMateDB.Controllers
         {
                        
             var model = _db.ResultModels.Include(e => e.Event)
-                                      .Include(e => e.Rider)
-                                     //.Where(i => e.Id == id);
+                                      .Include(e => e.Rider)                                   
                                      .Where(i => i.RiderModelId == Id)
                                      .OrderByDescending(i=> i.Event.Date);
 
             return View(model);
-
-            
-
-
-
+                    
         }
-
-        //// GET: Rider/Details/5
-        //public ActionResult Details(int Id)
-        //{
-        //    var model = _db.RiderModels.Include(i => i.ClubOrTeamId);
-                                                                        
-
-        //    return View(model);
-        //}
-
+            
         // GET: Rider/Create
         public ActionResult Create()
         {
-            return View();
-        }
+            var repo = new RiderRepository();
 
+            var riderEditViewModel = repo.EditRider();
+
+            return View(riderEditViewModel);
+
+        }
+        
         // POST: Rider/Create
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public ActionResult Create(RiderModel riderModel)
+        public ActionResult Create(RiderEditViewModel riderEditViewModel)
         {
+
+            var model = new RiderModel()
+
+            {
+                Name = riderEditViewModel.RiderName,
+                ClubOrTeamId = Convert.ToInt32(riderEditViewModel.SelectedClubOrTeam)
+                                                            
+            };
+
             if (ModelState.IsValid)
             {
-                _db.RiderModels.Add(riderModel);
+                _db.RiderModels.Add(model);
                 _db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = model.Id});
 
             }
 
-            return View();
+            return View(model);
 
         }
 
+     
         // GET: Rider/Edit/5
         [Authorize(Roles = "Admin")]
         public ActionResult Edit(int Id)
         {
 
-            var rider = _db.RiderModels.Single(r => r.Id == Id);
+            var rider = _db.RiderModels.Single(r => r.Id == Id);                   
+                     
+            var repo = new RiderRepository();
 
-            return View(rider);
+            var riderEditViewModel = repo.EditRider();
+
+            riderEditViewModel.RiderID = rider.Id;
+            riderEditViewModel.RiderName = rider.Name;
+            riderEditViewModel.SelectedClubOrTeam = rider.ClubOrTeam.Name;
+
+            return View(riderEditViewModel);
+
+
+           
+            
         }
 
-        // POST: Rider/Edit/5
+
+        // POST: Rider/Edit
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public ActionResult Edit(int Id, FormCollection collection)
+        public ActionResult Edit(RiderEditViewModel riderEditViewModel)
         {
-
-            var rider = _db.RiderModels.Single(r => r.Id == Id);
-            if (TryUpdateModel(rider))
-
+            if (riderEditViewModel == null)
             {
-                //Write to DB
-                return RedirectToAction("Index");
-
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            return View(rider);
+            var model = new RiderModel()
+
+            {
+                Id = riderEditViewModel.RiderID,
+                Name = riderEditViewModel.RiderName,
+                ClubOrTeamId = Convert.ToInt32(riderEditViewModel.SelectedClubOrTeam)              
+                               
+            };
+
+            if (ModelState.IsValid)
+            {
+                _db.Entry(model).State = EntityState.Modified;
+                _db.SaveChanges();
+                return RedirectToAction("Index", new { id = model.Id });
+            }
+            return View(riderEditViewModel);
         }
 
 
 
-        // GET: Rider/Delete/5
 
-        [Authorize(Roles = "Admin")]
-        public ActionResult Delete(int Id)
 
+        // GET: RiderModels/Details/5
+        public ActionResult Details(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            RiderModel riderModel = _db.RiderModels.Find(id);
+            if (riderModel == null)
+            {
+                return HttpNotFound();
+            }
+            return View(riderModel);
         }
 
-        // POST: Rider/Delete/5
-        [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public ActionResult Delete(int Id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
+
+        // GET: RiderModels/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
             {
-                return View();
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            RiderModel riderModel = _db.RiderModels.Find(id);
+            if (riderModel == null)
+            {
+                return HttpNotFound();
+            }
+            return View(riderModel);
         }
 
-       
+        // POST: RiderModels/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            RiderModel riderModel = _db.RiderModels.Find(id);
+            _db.RiderModels.Remove(riderModel);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
+
+        protected override void Dispose(bool disposing)
+        {
+            if (_db != null)
+            {
+                _db.Dispose();
+            }
+
+
+            base.Dispose(disposing);
+
+        }
+
     }
 }

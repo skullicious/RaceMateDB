@@ -30,12 +30,7 @@ namespace RaceMateDB.Models
         [NotMapped]
         public string RiderName { get; set; }
 
-       //Linq does not like these..  investigate
-        //[NotMapped]
-        //public virtual int EventModelId { get; set; }
-        //[NotMapped]
-        //public virtual int RiderModelId { get; set; }
-
+       
 
 
     }

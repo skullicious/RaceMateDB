@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -27,6 +28,9 @@ namespace RaceMateDB.Models
 
         public virtual ICollection<RiderModel> RiderModels { get; set; }
 
+
+        //Data formatting for date in view
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime Date { get; set; }
        
         public bool? HasResult { get; set; }

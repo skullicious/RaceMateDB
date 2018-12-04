@@ -198,18 +198,21 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\Template.cs" />
-    <Compile Include="Migrations\201811301737325_test.cs" />
-    <Compile Include="Migrations\201811301737325_test.Designer.cs">
-      <DependentUpon>201811301737325_test.cs</DependentUpon>
+    <Compile Include="Migrations\201812031150558_test.cs" />
+    <Compile Include="Migrations\201812031150558_test.Designer.cs">
+      <DependentUpon>201812031150558_test.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ClubOrTeamModel.cs" />
     <Compile Include="Models\Security\AccountViewModels.cs" />
     <Compile Include="Models\Security\IdentityModels.cs" />
     <Compile Include="Models\Security\ManageViewModels.cs" />
     <Compile Include="Repositories\CourseRepository.cs" />
+    <Compile Include="Repositories\RiderRepository.cs" />
     <Compile Include="Repositories\EventRepository.cs" />
+    <Compile Include="Repositories\ClubOrTeamRepository.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AddEventViewModel.cs" />
+    <Compile Include="ViewModels\RiderEditViewModel.cs" />
     <None Include="Content\Configuration.old" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\EventController.cs" />
@@ -305,6 +308,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Event\Delete.cshtml" />
     <Content Include="Views\Rider\Details.cshtml" />
+    <Content Include="Views\Rider\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -402,8 +406,8 @@
     <Folder Include="UploadedFiles\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201811301737325_test.resx">
-      <DependentUpon>201811301737325_test.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201812031150558_test.resx">
+      <DependentUpon>201812031150558_test.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

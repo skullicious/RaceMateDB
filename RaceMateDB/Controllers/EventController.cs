@@ -51,7 +51,7 @@ namespace RaceMateDB.Controllers
 
                       
             var model = _db.EventModels
-                                       .OrderBy(r => r.Name)
+                                       .OrderByDescending(r => r.Date)
                                        .Where(r => searchTerm == null || r.Name.Contains(searchTerm))
                                        .ToPagedList(page, 5);
 
@@ -350,16 +350,23 @@ namespace RaceMateDB.Controllers
             EventModel editEventModel = _db.EventModels
                                         .Include(i => i.EventResults)
                                         .Where(i => i.EventResults.FirstOrDefault().EventModelId == id)                                      
-                                        .Single();
-                                                
+                                        .SingleOrDefault();
+
             AddEventViewModel addEventViewModel = new AddEventViewModel();
 
-            addEventViewModel.EventId = editEventModel.EventResults.FirstOrDefault().EventModelId;
-            addEventViewModel.Courses = courseRepo.GetCourses();
-            addEventViewModel.EventName = editEventModel.Name;
-            addEventViewModel.Date = editEventModel.Date;
-            addEventViewModel.SelectedCourse = editEventModel.Course.Name;
-                                
+            if (editEventModel != null)
+            {
+                               
+
+                addEventViewModel.EventId = editEventModel.EventResults.FirstOrDefault().EventModelId;
+                addEventViewModel.Courses = courseRepo.GetCourses();
+                addEventViewModel.EventName = editEventModel.Name;
+                addEventViewModel.Date = editEventModel.Date;
+                addEventViewModel.SelectedCourse = editEventModel.Course.Name;
+
+
+            }
+
             return View(addEventViewModel);
                              
         }

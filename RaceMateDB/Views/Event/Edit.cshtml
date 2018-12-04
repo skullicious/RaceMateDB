@@ -4,66 +4,79 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+
+@if (Model.EventName != null)
 {
-    @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>EventModel</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <h2>Edit</h2>
 
-    @Html.HiddenFor(model => model.EventId)
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.EventName, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.EventName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.EventName, "", new { @class = "text-danger" })
+        <div class="form-horizontal">
+            <h4>EventModel</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @Html.HiddenFor(model => model.EventId)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.EventName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.EventName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EventName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SelectedCourse, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.SelectedCourse, new SelectList(Model.Courses, "Value", "Text"), Model.SelectedCourse, htmlAttributes: new { @class = "form-control", id = "Course" }) @*Show existing info and resubmit if unchanged.*@
+
+
+                    @Html.ValidationMessageFor(model => model.SelectedCourse, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @*@Html.TextBox("Date", String.Format("{0:d}", Model.Date),
+                        Model.Date )*@
+
+
+
+                    @Html.TextBox("Date", String.Format("{0:yyyy-MM-dd}", Model.Date),   //Set DateTime format so it can be displayed and edited. "{0:yyyy-MM-dd}"
+         new { @class = "datefield", type = "Date" })
+
+
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
         </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
     </div>
 
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.SelectedCourse, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">         
-            @Html.DropDownListFor(model => model.SelectedCourse, new SelectList(Model.Courses, "Value", "Text"), Model.SelectedCourse, htmlAttributes: new { @class = "form-control", id = "Course" }) @*Show existing info and resubmit if unchanged.*@
-
-
-            @Html.ValidationMessageFor(model => model.SelectedCourse, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @*@Html.TextBox("Date", String.Format("{0:d}", Model.Date),
-        Model.Date )*@
-
-       
-
-            @Html.TextBox("Date", String.Format("{0:yyyy-MM-dd}", Model.Date),   //Set DateTime format so it can be displayed and edited. "{0:yyyy-MM-dd}"
-        new { @class = "datefield", type = "Date" })
-
-
-        </div>
-    </div>
-
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
-        </div>
-    </div>
-</div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+else
+
+{
+    <h2> Sorry, there is no data associated with this event... </h2>
+}
 
 @section Scripts {
 

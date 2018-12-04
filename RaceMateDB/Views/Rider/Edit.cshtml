@@ -1,21 +1,25 @@
-﻿@model RaceMateDB.Models.RiderModel
+﻿@model RaceMateDB.ViewModels.RiderEditViewModel
 
 @{
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@if (Model.RiderName != null)
 {
-    @Html.AntiForgeryToken()
-    
+
+    <h2>Edit</h2>
+
+    using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
     <div class="form-horizontal">
         <h4>RiderModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.RiderID)
 
         @*<div class="form-group">
             @Html.LabelFor(model => model.BritishCyclingId, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -26,10 +30,18 @@
         </div>*@
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.RiderName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.RiderName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RiderName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => Model.SelectedClubOrTeam, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-5">
+                @Html.DropDownListFor(x => Model.SelectedClubOrTeam, new SelectList(Model.ClubsOrTeams, "Value", "Text"),Model.SelectedClubOrTeam, htmlAttributes: new { @class = "form-control", id = "Club or Team" })
+                @Html.ValidationMessageFor(x => x.SelectedClubOrTeam, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -63,12 +75,22 @@
             </div>
         </div>
     </div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+else
+
+
+{
+    <h2> Sorry, there is no data associated with this event... Please check back later... </h2>
+}
+
 
 @section Scripts {
-  
+
 }

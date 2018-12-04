@@ -189,67 +189,83 @@ namespace OdeToRacing.Controllers
             {
                 var eventModels = (List<EventModel>)Session["UploadEventFileSession"];
                 return PartialView("_UploadEventFile", eventModels.ToPagedList(page, resultsPerPage));
-            }           
+            }
 
-            try
+            if (file != null)
             {
-                if (file.ContentLength > 0)
+                try
                 {
-                    var column1 = new List<string>();
-                    var column2 = new List<string>();
-
-                    using (var rdr = new StreamReader(file.InputStream))
+                    if (file.ContentLength > 0)
                     {
-                        //   while (!rdr.EndOfStream)
-                        rdr.ReadLine();                     //Peeks first line and ignores it.
-                        while (rdr.Peek() != -1)
+                        var column1 = new List<string>();
+                        var column2 = new List<string>();
+
+                        using (var rdr = new StreamReader(file.InputStream))
                         {
-                            var splits = rdr.ReadLine().Split(',');
-
-                            if (!String.IsNullOrEmpty(splits[0]))
+                            //   while (!rdr.EndOfStream)
+                            rdr.ReadLine();                     //Peeks first line and ignores it.
+                            while (rdr.Peek() != -1)
                             {
-                                var newEvent = new EventModel();
+                                var splits = rdr.ReadLine().Split(',');
 
-                                newEvent.Name = splits[0];
+                                if (!String.IsNullOrEmpty(splits[0]))
+                                {
+                                    var newEvent = new EventModel();
 
-                                // GET COURSEIDBYNAMEMETHOD                                                             
-                                string searchTerm = splits[1]; // Array reference will not run inside of query
+                                    newEvent.Name = splits[0];
 
-                                var eventCourseModel = db.CourseModels
-                                                   .Where(r => r.Name.Contains(searchTerm));  //Need some whitespace handling!!!                                                                                              
+                                    // GET COURSEIDBYNAMEMETHOD                                                             
+                                    string searchTerm = splits[1]; // Array reference will not run inside of query
 
-                                newEvent.CourseId = eventCourseModel.FirstOrDefault().Id;                           //Sets up pnjects         
-                                newEvent.CourseName = eventCourseModel.FirstOrDefault().Name;
-                                newEvent.Date = Convert.ToDateTime(splits[2]);
+                                    var eventCourseModel = db.CourseModels
+                                                       .Where(r => r.Name.Contains(searchTerm));  //Need some whitespace handling!!!                                                                                              
 
-                                importedEventModelList.Add(newEvent);
+                                    newEvent.CourseId = eventCourseModel.FirstOrDefault().Id;                           //Sets up pnjects         
+                                    newEvent.CourseName = eventCourseModel.FirstOrDefault().Name;
+                                    newEvent.Date = Convert.ToDateTime(splits[2]);
 
-                                Console.WriteLine(newEvent.Name + " " + newEvent.Date.ToString() + " added to model");
+                                    importedEventModelList.Add(newEvent);
+
+                                    Console.WriteLine(newEvent.Name + " " + newEvent.Date.ToString() + " added to model");
+                                }
+
                             }
+                            Console.WriteLine("Done");
 
                         }
-                        Console.WriteLine("Done");
+
 
                     }
 
+                    //Success
+                    var pagedImportedEventModelList = importedEventModelList.ToPagedList(page, resultsPerPage);
 
+                    // Save data in session so user can confirm and write to to database on next page
+                    //Get working with PageList if possible
+                    Session.Add("UploadEventFileSession", importedEventModelList);
+
+                    return View(pagedImportedEventModelList);
                 }
-                
-                //Success
-                var pagedImportedEventModelList = importedEventModelList.ToPagedList(page, resultsPerPage);
-                
-                // Save data in session so user can confirm and write to to database on next page
-                //Get working with PageList if possible
-                Session.Add("UploadEventFileSession", importedEventModelList);
 
-                return View(pagedImportedEventModelList);                
+
+
+                catch
+                {
+                    ViewBag.Message = "File upload failed!!";
+                    Console.WriteLine("Fail");
+                    return View();
+                }
+
             }
 
-            catch
+            else
             {
-                ViewBag.Message = "File upload failed!!";
-                Console.WriteLine("Fail");
-                return View();
+
+                ViewBag.Message = "File is null";
+                Console.WriteLine("File is null");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return View(index);
+
             }
         }
         
@@ -266,54 +282,66 @@ namespace OdeToRacing.Controllers
               var courseModels = (List<CourseModel>)Session["UploadCourseFileSession"];
               return PartialView("_UploadCourseFile", courseModels.ToPagedList(page, resultsPerPage));
            }
-
-            try
-            {              
-                if (file.ContentLength > 0)
-                {                                     
-                    var column1 = new List<string>();
-                    var column2 = new List<string>();
-
-                    using (var rdr = new StreamReader(file.InputStream))
-                    {
-                        while (!rdr.EndOfStream)
-                        {
-                            var splits = rdr.ReadLine().Split(',');
-
-                            if (!String.IsNullOrEmpty(splits[0]))
-                            {
-
-                                var newCourse = new CourseModel();
-
-                                newCourse.Name = splits[0];
-                                newCourse.Description = splits[1];
-                                newCourse.VeloViewerURL = splits[2];
-                                importedCourseModelList.Add(newCourse);
-
-                                Console.WriteLine(newCourse.Name + "added to model");                                
-                            }                                                     
-                        }
-                        Console.WriteLine("Done");
-                    }                    
-                }            
-
-                //Success
-                var pagedImportedCourseModelList = importedCourseModelList.ToPagedList(page, resultsPerPage);                
-
-                // Save data in session so user can confirm and write to to database on next page
-                //Get working with PageList if possible
-                Session.Add("UploadCourseFileSession", importedCourseModelList);
-
-                return View(pagedImportedCourseModelList);
-            }
-            
-
-            catch
+            if (file != null)
             {
-                ViewBag.Message = "File upload failed!!";
-                Console.WriteLine("Fail");
-                return View();
-            }                    
+                try
+                {
+                    if (file.ContentLength > 0)
+                    {
+                        var column1 = new List<string>();
+                        var column2 = new List<string>();
+
+                        using (var rdr = new StreamReader(file.InputStream))
+                        {
+                            while (!rdr.EndOfStream)
+                            {
+                                var splits = rdr.ReadLine().Split(',');
+
+                                if (!String.IsNullOrEmpty(splits[0]))
+                                {
+
+                                    var newCourse = new CourseModel();
+
+                                    newCourse.Name = splits[0];
+                                    newCourse.Description = splits[1];
+                                    newCourse.VeloViewerURL = splits[2];
+                                    importedCourseModelList.Add(newCourse);
+
+                                    Console.WriteLine(newCourse.Name + "added to model");
+                                }
+                            }
+                            Console.WriteLine("Done");
+                        }
+                    }
+
+                    //Success
+                    var pagedImportedCourseModelList = importedCourseModelList.ToPagedList(page, resultsPerPage);
+
+                    // Save data in session so user can confirm and write to to database on next page
+                    //Get working with PageList if possible
+                    Session.Add("UploadCourseFileSession", importedCourseModelList);
+
+                    return View(pagedImportedCourseModelList);
+                }
+
+
+                catch
+                {
+                    ViewBag.Message = "File upload failed!!";
+                    Console.WriteLine("Fail");
+                    return View();
+                }
+
+            }
+            else
+            {
+
+                ViewBag.Message = "File is null";
+                Console.WriteLine("File is null");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return View(index);
+
+            }
 
         }
 
@@ -329,78 +357,88 @@ namespace OdeToRacing.Controllers
                 var resultModels = (List<EventModel>)Session["UploadResultFileSession"];
                 return PartialView("_UploadResultFile", resultModels.ToPagedList(page, resultsPerPage));
             }
-
-            try
-            {
-                if (file.ContentLength > 0)
+            if (file!=null) {
+                try
                 {
-                    var column1 = new List<string>();
-                    var column2 = new List<string>();
-
-                    using (var rdr = new StreamReader(file.InputStream))
+                    if (file.ContentLength > 0)
                     {
-                        //   while (!rdr.EndOfStream)
-                        string eventName = rdr.ReadLine();    //Get Event details initialized 
-                        var eventModel = db.EventModels
-                                                       .Where(r => r.Name.Contains(eventName));  //Need some whitespace handling!!!   
+                        var column1 = new List<string>();
+                        var column2 = new List<string>();
 
-
-                        //Peeks first line and ignores it.
-                        while (rdr.Peek() != -1)
+                        using (var rdr = new StreamReader(file.InputStream))
                         {
-                            var splits = rdr.ReadLine().Split(',');
+                            //   while (!rdr.EndOfStream)
+                            string eventName = rdr.ReadLine();    //Get Event details initialized 
+                            var eventModel = db.EventModels
+                                                           .Where(r => r.Name.Contains(eventName));  //Need some whitespace handling!!!   
 
-                            if (!String.IsNullOrEmpty(splits[0]))
+
+                            //Peeks first line and ignores it.
+                            while (rdr.Peek() != -1)
                             {
-                                var newResult = new ResultModel();
+                                var splits = rdr.ReadLine().Split(',');
+
+                                if (!String.IsNullOrEmpty(splits[0]))
+                                {
+                                    var newResult = new ResultModel();
 
 
-                                // GET OBJECT                                                        
+                                    // GET OBJECT                                                        
 
-                                string riderName = splits[1];
+                                    string riderName = splits[1];
 
-                                var riderModel = db.RiderModels                                                                      
-                                                              .Where(r => r.Name.Contains(riderName));  //Need some whitespace handling!!!   
-                                Console.WriteLine(riderModel.FirstOrDefault().Name);
+                                    var riderModel = db.RiderModels
+                                                                  .Where(r => r.Name.Contains(riderName));  //Need some whitespace handling!!!   
+                                    Console.WriteLine(riderModel.FirstOrDefault().Name);
 
-                                newResult.EventName = eventModel.FirstOrDefault().Name;
-                                newResult.EventModelId = eventModel.FirstOrDefault().Id;                                
-                                newResult.RiderModelId = riderModel.FirstOrDefault().Id;
-                                newResult.RiderName = riderModel.FirstOrDefault().Name;   
-                                int positionInteger = Convert.ToInt32(splits[0]);
-                                newResult.Position = positionInteger;                    //Sets up pnjects         
-                                
+                                    newResult.EventName = eventModel.FirstOrDefault().Name;
+                                    newResult.EventModelId = eventModel.FirstOrDefault().Id;
+                                    newResult.RiderModelId = riderModel.FirstOrDefault().Id;
+                                    newResult.RiderName = riderModel.FirstOrDefault().Name;
+                                    int positionInteger = Convert.ToInt32(splits[0]);
+                                    newResult.Position = positionInteger;                    //Sets up pnjects         
 
-                                
 
-                                importedResultModelList.Add(newResult);
 
-                                
+
+                                    importedResultModelList.Add(newResult);
+
+
+                                }
+
                             }
+                            Console.WriteLine("Done");
 
                         }
-                        Console.WriteLine("Done");
+
 
                     }
 
+                    //Success
+                    var pagedImportedResultModelList = importedResultModelList.ToPagedList(page, resultsPerPage);
 
+                    // Save data in session so user can confirm and write to to database on next page
+                    //Get working with PageList if possible
+                    Session.Add("UploadResultFileSession", importedResultModelList);
+
+                    return View(pagedImportedResultModelList);
                 }
 
-                //Success
-                var pagedImportedResultModelList = importedResultModelList.ToPagedList(page, resultsPerPage);
-
-                // Save data in session so user can confirm and write to to database on next page
-                //Get working with PageList if possible
-                Session.Add("UploadResultFileSession", importedResultModelList);
-
-                return View(pagedImportedResultModelList);
+                catch
+                {
+                    ViewBag.Message = "File upload failed!!";
+                    Console.WriteLine("Fail");
+                    return View();
+                }
             }
-
-            catch
+            else
             {
-                ViewBag.Message = "File upload failed!!";
-                Console.WriteLine("Fail");
-                return View();
+
+                ViewBag.Message = "File is null";
+                Console.WriteLine("File is null");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return View(index);
+
             }
         }
 

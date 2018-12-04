@@ -8,25 +8,15 @@
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
-            </th>          
+            </th>
         </tr>
-        
-        
-      
-        @*<table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.VeloViewerURL)
-                </th>
-                <th></th>
-            </tr>*@
 
+        @if (@User.IsInRole("Admin"))
+        {
+            <text>|</text>@Html.ActionLink("Create New", "Create") <text>|</text>
+        }
+
+ 
         @foreach (var item in Model)
         {
             <tr>
@@ -35,16 +25,7 @@
                         @Html.DisplayFor(modelItem => item.Name)
                     </div>
                 </td>
-                @*<td>
-                        <div class="ResultHighlightRibbon">
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </div>
-                    </td>
-                    <td>
-                        <div class="ResultHighlightRibbon">
-                            @Html.DisplayFor(modelItem => item.VeloViewerURL)
-                        </div>
-                    </td>*@
+     
                 <td>
                     <div class="ResultHighlightRibbon">
 
@@ -53,7 +34,6 @@
 
                         @if (@User.IsInRole("Admin"))
                         {
-                            @Html.ActionLink("Create New", "Create") <text>|</text>
                             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <text>|</text>
                             @Html.ActionLink("Delete", "Delete", new { id = item.Id }) <text>|</text>
                         }
