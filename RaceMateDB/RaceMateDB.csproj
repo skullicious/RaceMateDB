@@ -207,6 +207,7 @@
     <Compile Include="Models\Security\IdentityModels.cs" />
     <Compile Include="Models\Security\ManageViewModels.cs" />
     <Compile Include="Repositories\CourseRepository.cs" />
+    <Compile Include="Repositories\CsvDataReader.cs" />
     <Compile Include="Repositories\RiderRepository.cs" />
     <Compile Include="Repositories\EventRepository.cs" />
     <Compile Include="Repositories\ClubOrTeamRepository.cs" />

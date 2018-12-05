@@ -2,13 +2,9 @@
 
 
 <div id="uploadEventList">
+          
 
-
-    <h2>UploadEventFile</h2>
-
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
+    
     <table class="table">
         <tr>
             @*<th>
@@ -44,9 +40,9 @@
                 </td>
 
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Name }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Name }) |
+                    @Html.ActionLink("Delete", "DeleteEventFromSession", new { name = item.Name })
                 </td>
             </tr>
         }
@@ -55,7 +51,7 @@
 
 
     <div class="pagedList" data-rmdb-target="#uploadEventList">
-        @Html.PagedListPager(Model, page => Url.Action("UploadCourseFile", new { page }),
+        @Html.PagedListPager(Model, page => Url.Action("UploadEventsFile", new { page }),
        PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions()
     { HttpMethod = "GET", UpdateTargetId = "uploadEventList"}))                                @*   PagedListRenderOptions.MinimalWithItemCountText) *@
 

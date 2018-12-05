@@ -122,9 +122,7 @@ namespace RaceMateDB.Controllers
             riderEditViewModel.SelectedClubOrTeam = rider.ClubOrTeam.Name;
 
             return View(riderEditViewModel);
-
-
-           
+                      
             
         }
 

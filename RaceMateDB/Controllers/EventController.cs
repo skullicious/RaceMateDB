@@ -53,7 +53,7 @@ namespace RaceMateDB.Controllers
             var model = _db.EventModels
                                        .OrderByDescending(r => r.Date)
                                        .Where(r => searchTerm == null || r.Name.Contains(searchTerm))
-                                       .ToPagedList(page, 5);
+                                       .ToPagedList(page, 50);
 
 
             if (Request.IsAjaxRequest())
@@ -64,8 +64,7 @@ namespace RaceMateDB.Controllers
 
             return View(model);
 
-            
-                        
+                                   
          
 
 
@@ -88,7 +87,7 @@ namespace RaceMateDB.Controllers
             var model = _db.EventModels
                                       .OrderBy(r => r.Name)
                                      .Where(r => r.CourseId == courseId)
-                                     .ToPagedList(page, 5);
+                                     .ToPagedList(page, 50);
 
 
            if (Request.IsAjaxRequest())
@@ -101,10 +100,6 @@ namespace RaceMateDB.Controllers
 
            return View(model);
 
-
-
-
-
         }
 
         // get: event
@@ -114,22 +109,13 @@ namespace RaceMateDB.Controllers
 
             var model = _db.ResultModels
                                         .Include(e => e.Event)
-                                      .Include(e => e.Rider)
-                                      .Where(i => i.EventModelId == id);
+                                        .Include(e => e.Rider)
+                                        .Where(i => i.EventModelId == id);
 
-
-           
-                return View(model);
+           return View(model);
           
         }
-
-
-
-
-
-
-
-
+        
 
         // GET: Event/Create
         [HttpGet]
@@ -157,17 +143,14 @@ namespace RaceMateDB.Controllers
 
             {
                 Name = addEventViewModel.EventName,
-                Date = addEventViewModel.Date,
+                Date = addEventViewModel.Date,              
+                CourseId = Convert.ToInt32(addEventViewModel.SelectedCourse)  //Should I be converting this backward and forwards??
 
-                //Should I be converting this backward and forwards??
-                CourseId = Convert.ToInt32(addEventViewModel.SelectedCourse)
-       
             };
 
             if (ModelState.IsValid)
             {
-                _db.EventModels.Add(model);
-               
+                _db.EventModels.Add(model);               
                 _db.SaveChanges();
                 return RedirectToAction("Index", new { id = model.CourseId });
 
@@ -248,12 +231,13 @@ namespace RaceMateDB.Controllers
 
         [HttpGet]
         public ActionResult EditEventReview(int Id)
-            {
+
+        {
             var model = _db.EventReviews.Find(Id);
           
             return View(model);
 
-             }
+        }
 
 
 
@@ -309,12 +293,7 @@ namespace RaceMateDB.Controllers
 
             if (ModelState.IsValid)
             {
-
-            
-
-                
-                
-                _db.Entry(model).State = EntityState.Modified;
+               _db.Entry(model).State = EntityState.Modified;
                _db.SaveChanges();
                 return RedirectToAction("Index", new { id = model.Id});
 
@@ -326,11 +305,7 @@ namespace RaceMateDB.Controllers
 
 
 
-
-
-
-
-
+        
 
 
 
@@ -343,10 +318,8 @@ namespace RaceMateDB.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             
-            var courseRepo = new CourseRepository();
-            //stick some includes here
-
-            //EventModel editEventModel = _db.EventModels.Find(id);
+            var courseRepo = new CourseRepository();          
+                        
             EventModel editEventModel = _db.EventModels
                                         .Include(i => i.EventResults)
                                         .Where(i => i.EventResults.FirstOrDefault().EventModelId == id)                                      
@@ -363,7 +336,6 @@ namespace RaceMateDB.Controllers
                 addEventViewModel.EventName = editEventModel.Name;
                 addEventViewModel.Date = editEventModel.Date;
                 addEventViewModel.SelectedCourse = editEventModel.Course.Name;
-
 
             }
 

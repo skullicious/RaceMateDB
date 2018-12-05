@@ -9,6 +9,10 @@ using System.Web;
 using System.Web.Mvc;
 using RaceMateDB.Models;
 using PagedList;
+using RaceMateDb.Repositories;
+using RaceMateDB.Repositories;
+
+
 
 
 namespace OdeToRacing.Controllers
@@ -43,6 +47,11 @@ namespace OdeToRacing.Controllers
         }
 
 
+
+        /// <summary>
+        /// Drops user to upload confirmation page             
+        /// 
+
         [Authorize(Roles = "Admin")]
         public ActionResult UploadCourseSuccess()
         {
@@ -67,7 +76,10 @@ namespace OdeToRacing.Controllers
         }
 
 
-
+        /// <summary>
+        /// Commit Results of Upload screens to database
+        /// </summary>
+                                 
         // POST: Admin/CommitResult
         [HttpPost]
         [Authorize(Roles = "Admin")]
@@ -91,10 +103,7 @@ namespace OdeToRacing.Controllers
             return RedirectToAction("UploadResultSuccess");
 
         }
-
-
-
-
+                
         // POST: Admin/CommitCourse
         [HttpPost]
         [Authorize(Roles = "Admin")]
@@ -115,12 +124,10 @@ namespace OdeToRacing.Controllers
                 
             }
 
-            return RedirectToAction("UploadEventSuccess");
+            return RedirectToAction("UploadCourseSuccess");
             
         }
-
-
-
+        
         // POST: Admin/CommitEvent
         [HttpPost]
         [Authorize(Roles = "Admin")]
@@ -138,9 +145,14 @@ namespace OdeToRacing.Controllers
             }
             return RedirectToAction("UploadEventSuccess");
         }
-        
-        // GET: CourseModels/Delete/5
-        public ActionResult Delete(string name, int page = 1, int resultsPerPage = 100)
+
+
+        /// <summary>
+        /// Amends provisional data before upload using Ajax
+        /// </summary>       
+
+        // GET: CourseModels/DeleteCourseFromSession/5
+        public ActionResult DeleteCourseFromSession(string name, int page = 1, int resultsPerPage = 100)
         {           
             if (name == null)
             {
@@ -159,25 +171,56 @@ namespace OdeToRacing.Controllers
             return View("UploadCourseFile", courseModels.ToPagedList(page, resultsPerPage));
 
         }
-
-        //Get is to look through imported results and check they look okay.
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public ActionResult UploadCourseFile(int page = 1, int resultsPerPage = 100)
-
-
+        
+        // GET: EventModels/DeleteEventFromSession/5
+        public ActionResult DeleteEventFromSession(string name, int page = 1, int resultsPerPage = 100)
         {
-            var importedCourseModelList = new List<CourseModel>();
+            if (name == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var eventModels = (List<EventModel>)Session["UploadEventFileSession"];
 
-            if (Request.IsAjaxRequest())
+            foreach (var @event in eventModels.ToList())
 
             {
-            var courseModels = (List<CourseModel>)Session["UploadCourseFileSession"];
-            return PartialView("_UploadCourseFile", courseModels.ToPagedList(page, resultsPerPage));
+                if (@event.Name == name)
+                {
+                    eventModels.Remove(@event);
+                }
             }
-            return View();
+            return View("UploadEventsFile", eventModels.ToPagedList(page, resultsPerPage));
 
         }
+
+        // GET: ResultModels/DeleteEventResultFromSession/5
+        public ActionResult DeleteResultFromSession(string name, int page = 1, int resultsPerPage = 100)
+        {
+            if (name == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var resultModels = (List<ResultModel>)Session["UploadResultFileSession"];
+
+            foreach (var result in resultModels.ToList())
+
+            {
+                if (result.RiderName == name )
+                {
+                    resultModels.Remove(result);
+                }
+            }
+            return View("UploadResultsFile", resultModels.ToPagedList(page, resultsPerPage));
+
+        }
+
+
+        /// <summary>
+        /// Uploads data selected from file explorer using datareader method inside CSVDataReader Repository class
+        /// </summary>       
+
+        //// All posts here as uploading data. Using Ajax to  modify results.
+       
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
@@ -195,47 +238,8 @@ namespace OdeToRacing.Controllers
             {
                 try
                 {
-                    if (file.ContentLength > 0)
-                    {
-                        var column1 = new List<string>();
-                        var column2 = new List<string>();
-
-                        using (var rdr = new StreamReader(file.InputStream))
-                        {
-                            //   while (!rdr.EndOfStream)
-                            rdr.ReadLine();                     //Peeks first line and ignores it.
-                            while (rdr.Peek() != -1)
-                            {
-                                var splits = rdr.ReadLine().Split(',');
-
-                                if (!String.IsNullOrEmpty(splits[0]))
-                                {
-                                    var newEvent = new EventModel();
-
-                                    newEvent.Name = splits[0];
-
-                                    // GET COURSEIDBYNAMEMETHOD                                                             
-                                    string searchTerm = splits[1]; // Array reference will not run inside of query
-
-                                    var eventCourseModel = db.CourseModels
-                                                       .Where(r => r.Name.Contains(searchTerm));  //Need some whitespace handling!!!                                                                                              
-
-                                    newEvent.CourseId = eventCourseModel.FirstOrDefault().Id;                           //Sets up pnjects         
-                                    newEvent.CourseName = eventCourseModel.FirstOrDefault().Name;
-                                    newEvent.Date = Convert.ToDateTime(splits[2]);
-
-                                    importedEventModelList.Add(newEvent);
-
-                                    Console.WriteLine(newEvent.Name + " " + newEvent.Date.ToString() + " added to model");
-                                }
-
-                            }
-                            Console.WriteLine("Done");
-
-                        }
-
-
-                    }
+                    var csvDataReader = new CsvDataReader();
+                    csvDataReader.ReadEventCSV(file, importedEventModelList);
 
                     //Success
                     var pagedImportedEventModelList = importedEventModelList.ToPagedList(page, resultsPerPage);
@@ -268,8 +272,7 @@ namespace OdeToRacing.Controllers
 
             }
         }
-        
-
+               
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult UploadCourseFile(HttpPostedFileBase file, int page = 1, int resultsPerPage = 100)
@@ -282,37 +285,17 @@ namespace OdeToRacing.Controllers
               var courseModels = (List<CourseModel>)Session["UploadCourseFileSession"];
               return PartialView("_UploadCourseFile", courseModels.ToPagedList(page, resultsPerPage));
            }
+
             if (file != null)
             {
+
+
+
                 try
                 {
-                    if (file.ContentLength > 0)
-                    {
-                        var column1 = new List<string>();
-                        var column2 = new List<string>();
-
-                        using (var rdr = new StreamReader(file.InputStream))
-                        {
-                            while (!rdr.EndOfStream)
-                            {
-                                var splits = rdr.ReadLine().Split(',');
-
-                                if (!String.IsNullOrEmpty(splits[0]))
-                                {
-
-                                    var newCourse = new CourseModel();
-
-                                    newCourse.Name = splits[0];
-                                    newCourse.Description = splits[1];
-                                    newCourse.VeloViewerURL = splits[2];
-                                    importedCourseModelList.Add(newCourse);
-
-                                    Console.WriteLine(newCourse.Name + "added to model");
-                                }
-                            }
-                            Console.WriteLine("Done");
-                        }
-                    }
+                    //instantiate csvDataReader to read course CSV
+                    var csvDataReader = new CsvDataReader();
+                    csvDataReader.ReadCourseCsv(file, importedCourseModelList);
 
                     //Success
                     var pagedImportedCourseModelList = importedCourseModelList.ToPagedList(page, resultsPerPage);
@@ -320,13 +303,14 @@ namespace OdeToRacing.Controllers
                     // Save data in session so user can confirm and write to to database on next page
                     //Get working with PageList if possible
                     Session.Add("UploadCourseFileSession", importedCourseModelList);
-
                     return View(pagedImportedCourseModelList);
                 }
 
 
                 catch
                 {
+
+                    // Is there something better we can do here?
                     ViewBag.Message = "File upload failed!!";
                     Console.WriteLine("Fail");
                     return View();
@@ -338,14 +322,12 @@ namespace OdeToRacing.Controllers
 
                 ViewBag.Message = "File is null";
                 Console.WriteLine("File is null");
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                //return View(index);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);               
 
             }
 
         }
-
-
+               
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult UploadResultsFile(HttpPostedFileBase file, int page = 1, int resultsPerPage = 100)
@@ -360,59 +342,8 @@ namespace OdeToRacing.Controllers
             if (file!=null) {
                 try
                 {
-                    if (file.ContentLength > 0)
-                    {
-                        var column1 = new List<string>();
-                        var column2 = new List<string>();
-
-                        using (var rdr = new StreamReader(file.InputStream))
-                        {
-                            //   while (!rdr.EndOfStream)
-                            string eventName = rdr.ReadLine();    //Get Event details initialized 
-                            var eventModel = db.EventModels
-                                                           .Where(r => r.Name.Contains(eventName));  //Need some whitespace handling!!!   
-
-
-                            //Peeks first line and ignores it.
-                            while (rdr.Peek() != -1)
-                            {
-                                var splits = rdr.ReadLine().Split(',');
-
-                                if (!String.IsNullOrEmpty(splits[0]))
-                                {
-                                    var newResult = new ResultModel();
-
-
-                                    // GET OBJECT                                                        
-
-                                    string riderName = splits[1];
-
-                                    var riderModel = db.RiderModels
-                                                                  .Where(r => r.Name.Contains(riderName));  //Need some whitespace handling!!!   
-                                    Console.WriteLine(riderModel.FirstOrDefault().Name);
-
-                                    newResult.EventName = eventModel.FirstOrDefault().Name;
-                                    newResult.EventModelId = eventModel.FirstOrDefault().Id;
-                                    newResult.RiderModelId = riderModel.FirstOrDefault().Id;
-                                    newResult.RiderName = riderModel.FirstOrDefault().Name;
-                                    int positionInteger = Convert.ToInt32(splits[0]);
-                                    newResult.Position = positionInteger;                    //Sets up pnjects         
-
-
-
-
-                                    importedResultModelList.Add(newResult);
-
-
-                                }
-
-                            }
-                            Console.WriteLine("Done");
-
-                        }
-
-
-                    }
+                    var csvDataReader = new CsvDataReader();
+                    csvDataReader.ReadResultCsv(file, importedResultModelList);
 
                     //Success
                     var pagedImportedResultModelList = importedResultModelList.ToPagedList(page, resultsPerPage);
@@ -442,12 +373,7 @@ namespace OdeToRacing.Controllers
             }
         }
 
-
-
-
-
-
-
+        
 
         protected override void Dispose(bool disposing)
         {
