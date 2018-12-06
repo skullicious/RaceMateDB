@@ -53,7 +53,7 @@ namespace RaceMateDB.Controllers
             var model = _db.EventModels
                                        .OrderByDescending(r => r.Date)
                                        .Where(r => searchTerm == null || r.Name.Contains(searchTerm))
-                                       .ToPagedList(page, 50);
+                                       .ToPagedList(page, 15);
 
 
             if (Request.IsAjaxRequest())
@@ -87,7 +87,7 @@ namespace RaceMateDB.Controllers
             var model = _db.EventModels
                                       .OrderBy(r => r.Name)
                                      .Where(r => r.CourseId == courseId)
-                                     .ToPagedList(page, 50);
+                                     .ToPagedList(page, 15);
 
 
            if (Request.IsAjaxRequest())
@@ -108,6 +108,7 @@ namespace RaceMateDB.Controllers
 
 
             var model = _db.ResultModels
+                                        .OrderBy(e => e.Position)
                                         .Include(e => e.Event)
                                         .Include(e => e.Rider)
                                         .Where(i => i.EventModelId == id);
@@ -115,7 +116,89 @@ namespace RaceMateDB.Controllers
            return View(model);
           
         }
-        
+
+        /// <summary>
+        /// /////////////////////////////////////////////
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+
+        // get: event
+        [HttpGet]
+        public ActionResult PredictedResults(int id)
+        {
+           
+
+            var modelList = new List<PredictedResultViewModel>();
+            
+            var data = _db.ResultModels                                        
+                                        .Include(e => e.Event)
+                                        .Include(e => e.Rider)
+                                        .Where(i => i.Event.HasResult == true);
+
+
+
+            
+            foreach (var item in data)
+            {
+
+                
+                //build each rider 
+                var model = new PredictedResultViewModel();
+                                    
+                    model.RiderID = item.RiderModelId;
+                    model.RiderName = item.Rider.Name;
+                    model.NumberofResults = item.Rider.EventResults.Count();
+
+                //calculate weighting of points
+                model.ResultWeighting += PredictedResultLogic.CreateResultWeightingFromPosition(item.Position);
+
+                model.ResultWeighting = model.ResultWeighting / model.NumberofResults;
+                //if (item.Position == 1)
+                //{
+
+                //    model.ResultWeighting += 20;
+
+                //}
+                
+
+
+                for (int i=0; i < modelList.Count; i++)
+                {
+
+                    var existingModel = modelList[i];
+
+                    if ((model.RiderID == existingModel.RiderID) && (existingModel.NumberofResults < model.NumberofResults))
+                    {
+                        //Add existing points to new object
+                        model.ResultWeighting += existingModel.ResultWeighting;
+                        //discard old object
+                        modelList.Remove(existingModel);
+                        Console.WriteLine("Removing model!");
+                    }
+
+
+
+                }
+
+
+                modelList.Add(model);
+
+                    
+                                                
+            }
+
+
+            var orderedModelList = modelList.OrderByDescending(r => r.ResultWeighting);
+            
+
+            return View(orderedModelList);
+
+        }
+        /// <summary>
+        /// //////////////////////////////////////////
+        /// </summary>
+        /// <returns></returns>
 
         // GET: Event/Create
         [HttpGet]
@@ -185,9 +268,7 @@ namespace RaceMateDB.Controllers
         //    var model =
         //           from r in _db.EventReviews
         //           where (r.EventModelId == id)
-        //           select r;
-
-
+        //           select r; 
         //    return View(model);
         //}
 
@@ -234,7 +315,6 @@ namespace RaceMateDB.Controllers
 
         {
             var model = _db.EventReviews.Find(Id);
-          
             return View(model);
 
         }
@@ -332,7 +412,7 @@ namespace RaceMateDB.Controllers
                                
 
                 addEventViewModel.EventId = editEventModel.EventResults.FirstOrDefault().EventModelId;
-                addEventViewModel.Courses = courseRepo.GetCourses();
+                addEventViewModel.Courses = courseRepo.GetCourses(false);
                 addEventViewModel.EventName = editEventModel.Name;
                 addEventViewModel.Date = editEventModel.Date;
                 addEventViewModel.SelectedCourse = editEventModel.Course.Name;

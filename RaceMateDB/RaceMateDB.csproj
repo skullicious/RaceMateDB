@@ -207,12 +207,15 @@
     <Compile Include="Models\Security\IdentityModels.cs" />
     <Compile Include="Models\Security\ManageViewModels.cs" />
     <Compile Include="Repositories\CourseRepository.cs" />
+    <Compile Include="Repositories\PredictedResultLogic.cs" />
+    <Compile Include="Repositories\ResultPredictor.cs" />
     <Compile Include="Repositories\CsvDataReader.cs" />
     <Compile Include="Repositories\RiderRepository.cs" />
     <Compile Include="Repositories\EventRepository.cs" />
     <Compile Include="Repositories\ClubOrTeamRepository.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AddEventViewModel.cs" />
+    <Compile Include="ViewModels\PredictedResultViewModel.cs" />
     <Compile Include="ViewModels\RiderEditViewModel.cs" />
     <None Include="Content\Configuration.old" />
     <Compile Include="Controllers\CourseController.cs" />
@@ -310,6 +313,7 @@
     <Content Include="Views\Event\Delete.cshtml" />
     <Content Include="Views\Rider\Details.cshtml" />
     <Content Include="Views\Rider\Delete.cshtml" />
+    <Content Include="Views\Event\PredictedResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />

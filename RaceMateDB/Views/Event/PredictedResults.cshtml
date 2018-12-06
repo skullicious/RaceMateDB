@@ -1,0 +1,47 @@
+﻿
+@model IEnumerable<RaceMateDB.ViewModels.PredictedResultViewModel>
+
+@{
+    ViewBag.Title = "PredictedResults";
+}
+
+<h2>PredictedResults</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.RiderName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberofResults)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ResultWeighting)
+        </th>
+       
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RiderName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumberofResults)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ResultWeighting)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.RiderID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.RiderID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RiderID })
+        </td>
+    </tr>
+}
+
+</table>

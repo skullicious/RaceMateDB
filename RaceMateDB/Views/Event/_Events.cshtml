@@ -47,13 +47,19 @@
                 <td>
                     <div class="ResultHighlightRibbon">
 
-                        |  @Html.ActionLink("Results", "Results", new { id = item.Id }) |
+                       
+                        @if (item.HasResult != true)
+                        {
+                        <text>|</text> @Html.ActionLink("View Predicted", "PredictedResults", new { id = item.Id }) <text>|</text>
+                        }
+                        
+                        @Html.ActionLink("Results", "Results", new { id = item.Id }) |
                         @Html.ActionLink("View Course", "Details", "Course", new { id = item.CourseId }, null) |
 
                         @if (@User.IsInRole("Admin"))
                         {
-                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <text>|</text>
-                            @Html.ActionLink("Delete", "Delete", new { id = item.Id }) <text>|</text>
+                         @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <text>|</text>
+                         @Html.ActionLink("Delete", "Delete", new { id = item.Id }) <text>|</text>
                         }
                     </div>
                 </td>

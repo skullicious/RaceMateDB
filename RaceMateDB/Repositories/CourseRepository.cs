@@ -8,7 +8,7 @@ namespace RaceMateDB.Repositories
 {
     public class CourseRepository
     {
-        public IEnumerable<SelectListItem> GetCourses()
+        public IEnumerable<SelectListItem> GetCourses(bool isNew)
         {
             using (var _db = new RMDBContext())
 
@@ -23,18 +23,18 @@ namespace RaceMateDB.Repositories
                         Text = n.Name.ToString()
                         
                     }).ToList();
-                                           
 
-                
-                var courseTip = new SelectListItem()
+
+                if (isNew)
                 {
-                    Value = null,
-                    Text = "---Select Course---"
-                };
-
-
-
-                courses.Insert(0, courseTip);
+                    var courseTip = new SelectListItem()
+                    {
+                        Value = null,
+                        Text = "---Select Course---"
+                    };
+                                        
+                    courses.Insert(0, courseTip);
+                }
 
                 return new SelectList(courses, "Value", "Text");
 

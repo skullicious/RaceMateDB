@@ -9,7 +9,6 @@ using System.Web;
 using System.Web.Mvc;
 using RaceMateDB.Models;
 using PagedList;
-using RaceMateDb.Repositories;
 using RaceMateDB.Repositories;
 
 

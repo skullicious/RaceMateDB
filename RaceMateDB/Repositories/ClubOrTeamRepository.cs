@@ -12,7 +12,7 @@ namespace RaceMateDB.Repositories
     public class ClubOrTeamRepository
     {
                 
-        public IEnumerable<SelectListItem> GetClubsOrTeams()
+        public IEnumerable<SelectListItem> GetClubsOrTeams(bool isNew)
         {
             using (var _db = new RMDBContext())
 
@@ -27,17 +27,20 @@ namespace RaceMateDB.Repositories
                         Text = n.Name.ToString()
 
                     }).ToList();
-                
 
-                var clubOrTeamTip = new SelectListItem()
+
+                if (isNew)
                 {
-                    Value = null,
-                    Text = "---Select Club---"
-                };
+                    var clubOrTeamTip = new SelectListItem()
+                    {
+                        Value = null,
+                        Text = "---Select Club---"
+                    };
 
-                
-                clubsOrTeams.Insert(0, clubOrTeamTip);
 
+                    clubsOrTeams.Insert(0, clubOrTeamTip);
+
+                }
                 return new SelectList(clubsOrTeams, "Value", "Text");
 
             }

@@ -23,7 +23,7 @@ namespace RaceMateDB.Repositories
                 var aRider = new RiderEditViewModel();
                 {                             
                
-                aRider.ClubsOrTeams = clubOrTeamRepo.GetClubsOrTeams();
+                aRider.ClubsOrTeams = clubOrTeamRepo.GetClubsOrTeams(false);
                                         
                 };
 

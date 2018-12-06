@@ -8,6 +8,11 @@ namespace RaceMateDB.Models
 {
     public class ResultModel
     {
+        
+        
+          
+       
+
 
 
         public int Id { get; set; }
@@ -21,19 +26,20 @@ namespace RaceMateDB.Models
 
         public virtual CourseModel Course { get; set; }
 
-       
 
 
-        // Added for result to be  built when uploading.. Should create separate view model?
+
+        // Added for result to be built when uploading.. Should create separate view model?
         [NotMapped]
-        public string EventName {get;set;} 
+        public string EventName { get; set; }
         [NotMapped]
         public string RiderName { get; set; }
 
-       
+        // This field used to calculate predictedResults
+        [NotMapped]
+        public int WeightedPoints { get; set; }
 
-
+        
     }
-
 
 }

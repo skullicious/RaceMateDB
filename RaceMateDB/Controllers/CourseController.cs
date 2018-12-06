@@ -55,7 +55,7 @@ namespace RaceMateDControllers
             var model = _db.CourseModels
                                        .OrderBy(r => r.Name)
                                        .Where(r => searchTerm == null || r.Name.Contains(searchTerm))
-                                       .ToPagedList(page, 5);   //default page
+                                       .ToPagedList(page, 15);   //default page
             //   .Take(10);                           
 
 

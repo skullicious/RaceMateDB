@@ -23,7 +23,7 @@ namespace RaceMateDB.Repositories
                 var anEvent = new AddEventViewModel();
                 {
                                     
-                anEvent.Courses = courseRepo.GetCourses();
+                anEvent.Courses = courseRepo.GetCourses(true);
                                         
                 };
 

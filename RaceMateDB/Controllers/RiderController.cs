@@ -41,7 +41,7 @@ namespace RaceMateDB.Controllers
             var model = _db.RiderModels                                        
                                         .OrderBy(r => r.Name)
                                         .Where(r => searchTerm == null || r.Name.Contains(searchTerm))
-                                        .ToPagedList(page, 5);   //default page
+                                        .ToPagedList(page, 15);   //default page
             //   .Take(10);                           
 
 
@@ -61,7 +61,7 @@ namespace RaceMateDB.Controllers
                        
             var model = _db.ResultModels.Include(e => e.Event)
                                       .Include(e => e.Rider)                                   
-                                     .Where(i => i.RiderModelId == Id)
+                                     .Where(i => i.RiderModelId == Id && i.Event.HasResult == true)
                                      .OrderByDescending(i=> i.Event.Date);
 
             return View(model);

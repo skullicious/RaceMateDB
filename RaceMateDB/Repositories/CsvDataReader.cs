@@ -5,7 +5,7 @@ using System.Web;
 using RaceMateDB.Models;
 using System.IO;
 
-namespace RaceMateDb.Repositories
+namespace RaceMateDB.Repositories
 {
     public class CsvDataReader
     {
