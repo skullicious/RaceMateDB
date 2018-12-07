@@ -50,7 +50,7 @@
                        
                         @if (item.HasResult != true)
                         {
-                        <text>|</text> @Html.ActionLink("View Predicted", "PredictedResults", new { id = item.Id }) <text>|</text>
+                        <text>|</text> @Html.ActionLink("View Predicted Results", "PredictedResults", new { id = item.Id }) <text>|</text>
                         }
                         
                         @Html.ActionLink("Results", "Results", new { id = item.Id }) |

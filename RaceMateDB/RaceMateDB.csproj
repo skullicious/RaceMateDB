@@ -294,7 +294,6 @@
     <Content Include="Scripts\rmdb.js" />
     <Content Include="Views\Event\ViewEventReview.cshtml" />
     <Content Include="Views\Event\Results.cshtml" />
-    <Content Include="Views\Rider\ViewRiderEvents - Copy.cshtml" />
     <Content Include="Views\Event\_RiderResults.cshtml" />
     <Content Include="Views\Rider\ViewRiderEvents.cshtml" />
     <Content Include="Views\Course\Details.cshtml" />

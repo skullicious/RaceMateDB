@@ -7,9 +7,6 @@
 
 <h2>PredictedResults</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -37,9 +34,7 @@
             @Html.DisplayFor(modelItem => item.ResultWeighting)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RiderID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.RiderID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.RiderID })
+           | @Html.ActionLink("Rider Results", "ViewRiderEvents", "Rider", new { id = item.RiderID },null) |         
         </td>
     </tr>
 }

@@ -11,6 +11,7 @@ using PagedList;
 using System.Net;
 
 
+
 namespace RaceMateDB.Controllers
 
 {
@@ -19,12 +20,7 @@ namespace RaceMateDB.Controllers
 
     public class EventController : Controller
     {
-
-
         RMDBContext _db = new RMDBContext();
-
-
-
 
         //use a data- attribute to wire up this action
         public ActionResult Autocomplete(string term) //term is supported paramater
@@ -39,65 +35,39 @@ namespace RaceMateDB.Controllers
                 });
 
             return Json(model, JsonRequestBehavior.AllowGet);  //serialize into json
-
-
         }
 
 
 
         // GET: Event
         public ActionResult Index(string searchTerm, int page = 1)
-        {
-
-                      
+        {                      
             var model = _db.EventModels
                                        .OrderByDescending(r => r.Date)
                                        .Where(r => searchTerm == null || r.Name.Contains(searchTerm))
                                        .ToPagedList(page, 15);
 
-
             if (Request.IsAjaxRequest())
-
             {
                 return PartialView("_Events", model);
             }
-
-            return View(model);
-
-                                   
-         
-
-
+            return View(model);                                       
         }
 
 
         // GET: Courses Events
         public ActionResult CourseEvents([Bind(Prefix="id")] int courseId, int page = 1)
-        {
-            //var courseEvents = _db.EventModels.Find(courseId);
-            //if (courseEvents != null)
-            //{
-
-            //    return View(courseEvents);
-
-            //}
-            //return HttpNotFound();
-
-
+        {                        
             var model = _db.EventModels
                                       .OrderBy(r => r.Name)
                                      .Where(r => r.CourseId == courseId)
                                      .ToPagedList(page, 15);
 
-
            if (Request.IsAjaxRequest())
 
             {
-
-              return PartialView("_Events", model);
-               
+              return PartialView("_Events", model);               
             }
-
            return View(model);
 
         }
@@ -105,8 +75,6 @@ namespace RaceMateDB.Controllers
         // get: event
         public ActionResult results(int id)
         {
-
-
             var model = _db.ResultModels
                                         .OrderBy(e => e.Position)
                                         .Include(e => e.Event)
@@ -126,75 +94,29 @@ namespace RaceMateDB.Controllers
         // get: event
         [HttpGet]
         public ActionResult PredictedResults(int id)
-        {
-           
-
+        {          
             var modelList = new List<PredictedResultViewModel>();
             
             var data = _db.ResultModels                                        
                                         .Include(e => e.Event)
                                         .Include(e => e.Rider)
                                         .Where(i => i.Event.HasResult == true);
-
-
-
             
+
+            //Refactored code  below into PredictedResultLogic but I think this makes it harder to read?
+
             foreach (var item in data)
             {
-
-                
-                //build each rider 
-                var model = new PredictedResultViewModel();
-                                    
-                    model.RiderID = item.RiderModelId;
-                    model.RiderName = item.Rider.Name;
-                    model.NumberofResults = item.Rider.EventResults.Count();
-
-                //calculate weighting of points
-                model.ResultWeighting += PredictedResultLogic.CreateResultWeightingFromPosition(item.Position);
-
-                model.ResultWeighting = model.ResultWeighting / model.NumberofResults;
-                //if (item.Position == 1)
-                //{
-
-                //    model.ResultWeighting += 20;
-
-                //}
-                
-
-
-                for (int i=0; i < modelList.Count; i++)
-                {
-
-                    var existingModel = modelList[i];
-
-                    if ((model.RiderID == existingModel.RiderID) && (existingModel.NumberofResults < model.NumberofResults))
-                    {
-                        //Add existing points to new object
-                        model.ResultWeighting += existingModel.ResultWeighting;
-                        //discard old object
-                        modelList.Remove(existingModel);
-                        Console.WriteLine("Removing model!");
-                    }
-
-
-
-                }
-
-
-                modelList.Add(model);
-
-                    
-                                                
+                PredictedResultLogic.GeneratePredictedResultModel(modelList, item);
             }
-
-
-            var orderedModelList = modelList.OrderByDescending(r => r.ResultWeighting);
-            
+            //orderlist by predictedResults
+            var orderedModelList = modelList.OrderByDescending(r => r.ResultWeighting);            
 
             return View(orderedModelList);
-
         }
+
+        
+
         /// <summary>
         /// //////////////////////////////////////////
         /// </summary>
@@ -212,9 +134,6 @@ namespace RaceMateDB.Controllers
 
             return View(addEventViewModel);
         }
-
-
-
 
         // POST: Event/Create
         [HttpPost]

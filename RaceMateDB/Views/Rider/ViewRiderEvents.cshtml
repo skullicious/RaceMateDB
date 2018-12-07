@@ -4,7 +4,7 @@
     ViewBag.Title = "ViewRiderEvents";
 }
 
-<h2>Rider Results</h2>
+<h2>Results for @Model.FirstOrDefault().Rider.Name</h2>
 
 
 <table class="table">
@@ -33,14 +33,14 @@
             @Html.DisplayFor(modelItem => item.Position)
         </td>
         <td>
-           
-            | @Html.ActionLink("Details", "Details", new { id = item.Id }) |          
+
+            |   @Html.ActionLink("View Event Results", "Results", "Event", new { id = item.EventModelId}, null) |
             @if (@User.IsInRole("Admin"))
             {
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <text>|</text>
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id }) <text>|</text>
             }
-            </td>
+        </td>
     </tr>
 }
 
