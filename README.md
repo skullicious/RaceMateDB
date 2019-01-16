@@ -21,3 +21,11 @@ ____________
 
 Creating two branches today. One For Windows Auth and one for OAuth...
 
+____________
+
+
+Admin login to import and edit data and users is:
+
+u: damien.sweeney81@racematedb.co.uk
+
+p: Password1!
