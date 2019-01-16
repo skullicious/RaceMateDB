@@ -138,7 +138,7 @@ namespace RaceMateDB.Repositories
                             importedResultModelList.Add(newResult);
 
 
-                        }
+                        }                       
 
                     }
                     Console.WriteLine("Done");

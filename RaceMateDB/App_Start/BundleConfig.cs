@@ -12,14 +12,12 @@ namespace RaceMateDB
                 "~/Scripts/jquery-{version}.js",
                 "~/Scripts/jquery-ui-{version}.js",
                 "~/Scripts/jquery.unobtrusive*",
-                "~/Scripts/jquery.validate",
-                "~/Scripts/rmdb.js"
+                "~/Scripts/jquery.validate*",
+                "~/Scripts/rmdb.js" ,
+                  "~/Scripts/bannerscript.js"
                 ));
 
-            //bundles.Add(new ScriptBundle("~/bundles/csvImport").Include(               
-            //    "~/Scripts/bootstrap.js",
-            //    "~/Scripts/csvImport.js"
-            //    ));
+
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));

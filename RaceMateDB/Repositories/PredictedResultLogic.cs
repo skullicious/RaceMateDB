@@ -10,6 +10,7 @@ namespace RaceMateDB.Repositories
 {
     public static class PredictedResultLogic
     {
+
         public static int CreateResultWeightingFromPosition(int position)
         {
 
@@ -78,9 +79,10 @@ namespace RaceMateDB.Repositories
                     resultWeighting = 1;
                     break;
 
-                default: resultWeighting = 0;
+                default:
+                    resultWeighting = 0;
                     break;
-                                 
+
             }
 
 
@@ -89,7 +91,50 @@ namespace RaceMateDB.Repositories
 
         }
 
-        public static PredictedResultViewModel BuildPredictedResult(ResultModel item)
+
+        public static void GeneratePredictedResultModel(List<PredictedResultViewModel> modelList, ResultModel item, int id)
+        {
+            PredictedResultViewModel model = PredictedResultLogic.BuildPredictedResult(item, id);
+
+            //iterate through results and discard existing
+            for (int i = 0; i < modelList.Count; i++)
+                
+            {
+              PredictedResultLogic.CheckNumberOfResultsAndDiscardExisting(modelList, model, i);                           
+
+            }
+            // add riders predicted result to model
+            modelList.Add(model);
+        }
+
+
+
+        public static void CheckNumberOfResultsAndDiscardExisting(List<PredictedResultViewModel> modelList, PredictedResultViewModel model, int i)
+        {
+            var existingModel = modelList[i];
+
+
+
+            if ((model.RiderID == existingModel.RiderID) && (existingModel.NumberofResults < model.NumberofResults))
+            {
+                //Add existing points to new object
+                model.ResultWeighting += existingModel.ResultWeighting;
+
+                //Check if IsEntered..If so set IsEntered to True... MUST THINK OF BETTER WAY TO TRACK/FLAG THIS..
+                if (existingModel.IsEntered == true)
+                {
+                    model.IsEntered = true;
+                }
+
+
+                //discard old object
+                modelList.Remove(existingModel);
+                Console.WriteLine("Removing model!");
+            }
+        }
+
+
+        public static PredictedResultViewModel BuildPredictedResult(ResultModel item, int id)
         {
             //build each riders predicted result
             var model = new PredictedResultViewModel();
@@ -97,6 +142,16 @@ namespace RaceMateDB.Repositories
             model.RiderID = item.RiderModelId;
             model.RiderName = item.Rider.Name;
             model.NumberofResults = item.Rider.EventResults.Count();
+            model.EventModelId = item.EventModelId;
+
+            if (item.EventModelId == id)
+            {
+                model.IsEntered = true;
+            }
+
+
+
+
 
             //calculate weighting of points
             model.ResultWeighting += PredictedResultLogic.CreateResultWeightingFromPosition(item.Position);
@@ -106,31 +161,7 @@ namespace RaceMateDB.Repositories
             return model;
         }
 
-        public static void CheckNumberOfResultsAndDiscardExisting(List<PredictedResultViewModel> modelList, PredictedResultViewModel model, int i)
-        {
-            var existingModel = modelList[i];
 
-            if ((model.RiderID == existingModel.RiderID) && (existingModel.NumberofResults < model.NumberofResults))
-            {
-                //Add existing points to new object
-                model.ResultWeighting += existingModel.ResultWeighting;
-                //discard old object
-                modelList.Remove(existingModel);
-                Console.WriteLine("Removing model!");
-            }
-        }
-        
-        public static void GeneratePredictedResultModel(List<PredictedResultViewModel> modelList, ResultModel item)
-        {
-            PredictedResultViewModel model = PredictedResultLogic.BuildPredictedResult(item);
 
-            //iterate through results and discard existing
-            for (int i = 0; i < modelList.Count; i++)
-            {
-                PredictedResultLogic.CheckNumberOfResultsAndDiscardExisting(modelList, model, i);
-            }
-            // add riders predicted result to model
-            modelList.Add(model);
-        }
     }
 }

@@ -71,9 +71,10 @@ namespace RaceMateDB.Controllers
         // GET: Rider/Create
         public ActionResult Create()
         {
+           
             var repo = new RiderRepository();
 
-            var riderEditViewModel = repo.EditRider();
+            var riderEditViewModel = repo.EditRider(IsNew: true);
 
             return View(riderEditViewModel);
 
@@ -115,7 +116,7 @@ namespace RaceMateDB.Controllers
                      
             var repo = new RiderRepository();
 
-            var riderEditViewModel = repo.EditRider();
+            var riderEditViewModel = repo.EditRider(IsNew: false);
 
             riderEditViewModel.RiderID = rider.Id;
             riderEditViewModel.RiderName = rider.Name;

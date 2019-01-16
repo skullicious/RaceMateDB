@@ -18,10 +18,10 @@ namespace RaceMateDB.Models
         public DbSet<ClubOrTeamModel> ClubOrTeamModels { get; set; }
 
 
-
+        
     }
 
-
+    
 
 
 }

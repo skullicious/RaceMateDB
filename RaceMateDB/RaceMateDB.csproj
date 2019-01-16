@@ -202,6 +202,14 @@
     <Compile Include="Migrations\201812031150558_test.Designer.cs">
       <DependentUpon>201812031150558_test.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812111410105_AddRequiredAnnotationsForCourseModel.cs" />
+    <Compile Include="Migrations\201812111410105_AddRequiredAnnotationsForCourseModel.Designer.cs">
+      <DependentUpon>201812111410105_AddRequiredAnnotationsForCourseModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812111419314_AddRequiredAnnotationsForCourseModelv2.cs" />
+    <Compile Include="Migrations\201812111419314_AddRequiredAnnotationsForCourseModelv2.Designer.cs">
+      <DependentUpon>201812111419314_AddRequiredAnnotationsForCourseModelv2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ClubOrTeamModel.cs" />
     <Compile Include="Models\Security\AccountViewModels.cs" />
     <Compile Include="Models\Security\IdentityModels.cs" />
@@ -240,6 +248,16 @@
     <Content Include="App_Data\RaceMateDB.Models.RMDBContext_log.ldf">
       <DependentUpon>RaceMateDB.Models.RMDBContext.mdf</DependentUpon>
     </Content>
+    <Content Include="Content\fonts\icomoon.svg" />
+    <Content Include="Content\Images\Banner\1.jpg" />
+    <Content Include="Content\Images\Banner\2.jpg" />
+    <Content Include="Content\Images\Banner\3.jpg" />
+    <Content Include="Content\Images\Banner\white-arrow-png-left.png" />
+    <Content Include="Content\Images\Banner\white-arrow-png-right.png" />
+    <Content Include="Content\Images\Flair\Position\1.svg" />
+    <Content Include="Content\Images\Flair\Position\2.svg" />
+    <Content Include="Content\Images\Flair\Position\3.svg" />
+    <Content Include="Content\style.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -282,9 +300,14 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Scripts\bannerscript.js" />
     <Content Include="Scripts\csvImport.js" />
     <Content Include="Scripts\DatePickerReady.js" />
+    <Content Include="Content\fonts\icomoon.eot" />
+    <Content Include="Content\fonts\icomoon.ttf" />
+    <Content Include="Content\fonts\icomoon.woff" />
     <None Include="Scripts\jquery-1.12.4.intellisense.js" />
+    <Content Include="Scripts\flairscript.js" />
     <Content Include="Scripts\jquery-1.12.4.js" />
     <Content Include="Scripts\jquery-1.12.4.min.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
@@ -313,6 +336,7 @@
     <Content Include="Views\Rider\Details.cshtml" />
     <Content Include="Views\Rider\Delete.cshtml" />
     <Content Include="Views\Event\PredictedResults.cshtml" />
+    <Content Include="Views\Event\_Events - Copy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -412,6 +436,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201812031150558_test.resx">
       <DependentUpon>201812031150558_test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812111410105_AddRequiredAnnotationsForCourseModel.resx">
+      <DependentUpon>201812111410105_AddRequiredAnnotationsForCourseModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812111419314_AddRequiredAnnotationsForCourseModelv2.resx">
+      <DependentUpon>201812111419314_AddRequiredAnnotationsForCourseModelv2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

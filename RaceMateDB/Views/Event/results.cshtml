@@ -5,56 +5,60 @@
 
 }
 
-@*<h2>Cannot get this to behave properly - Does not like mapped fields*@
-
-@{if (Model.FirstOrDefault() != null)
-
-    {
-        <h2> Results for @Model.First().Event.Name </h2>
 
 
 
+<div class="displayedResult">
 
-        <table class="table">
-            <tr>
+    @{if (Model.FirstOrDefault() != null)
 
-                <th>
-                    Rider
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Position)
-                </th>
-                <th></th>
-            </tr>
+        {
+            <h2> Results for @Model.First().Event.Name </h2>
 
-            @foreach (var item in Model)
-            {
+
+
+
+            <table class="table">
                 <tr>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Rider.Name)
 
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Position)
-                    </td>
-                    <td>
-                        | @Html.ActionLink("View Riders Results","ViewRiderEvents", "Rider", new { id = item.RiderModelId }, null) |
-                        @if (@User.IsInRole("Admin"))
-                        {
-                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <text>|</text>
-                            @Html.ActionLink("Delete", "Delete", new { id = item.Id }) <text>|</text>
-                        }
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Position)
+                    </th>
+
+                    <th>
+                        Rider
+                    </th>
+
+                    <th></th>
                 </tr>
-            }
 
-        </table>
-
-
-
+                @foreach (var item in Model)
+                {
+                    <tr>
 
 
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Position)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Rider.Name)
+
+                        </td>
+
+                        <td>
+                            | @Html.ActionLink("View Riders Results", "ViewRiderEvents", "Rider", new { id = item.RiderModelId }, null) |
+                            @if (@User.IsInRole("Admin"))
+                            {
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <text>|</text>
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id }) <text>|</text>
+                            }
+                        </td>
+                    </tr>
+                }
+
+            </table>
 
 
 
@@ -63,17 +67,64 @@
 
 
 
-  }
 
 
-    else
 
-    {
-        <h2> Sorry, there are no results for this event... Please check back later... </h2>
+
+
+        }
+
+
+
+
+        else
+
+        {
+            <h2> Sorry, there are no results for this event... Please check back later... </h2>
+        }
     }
-}
 
 
+
+</div>
+
+
+<script>
+        var positionList = document.querySelector(".displayedResult");
+
+        positionList = (positionList.firstElementChild.nextElementSibling.firstElementChild.children);
+
+    Array.from(positionList).forEach(function (item) {
+
+        var riderPosition = item.firstElementChild.textContent;       
+
+        if (riderPosition == 1) {
+
+         
+
+            item.firstElementChild.innerHTML = ('<span class="icon-1"></span>');
+           
+        }
+
+
+        if (riderPosition == 2) {
+
+         
+
+            item.firstElementChild.innerHTML = ('<span class="icon-2"></span>');
+
+        }
+
+        if (riderPosition == 3) {
+
+            
+
+            item.firstElementChild.innerHTML = ('<span class="icon-3"></span>');
+
+        }
+    
+    });   
+</script>
 
 
 

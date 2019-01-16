@@ -1,7 +1,7 @@
 ﻿//ensure bundle is available
 
 // invoke jquery and pass in object/DOM and html all ready to go
-
+// SEARCHING
 $(function () {
 
     
@@ -27,9 +27,12 @@ $(function () {
         $.ajax(options).done(function (data)   //response from server is the DATA object.
         {
             var $target = $($form.attr("data-rmdb-target"));        //$target gets target/DOM element from identifier
-            var $newHtml = $(data);                  
-            $target.replaceWith($newHtml);                                 //replace target with html data back from server
-            $newHtml.find("div.ResultHighlightRibbon").effect("highlight");                      //WHY DOES THIS ONLY WORK WITH -- <section class="content-wrapper main-content clear-fix">
+            var $newHtml = $(data);            
+                        
+
+           $target.replaceWith($newHtml);                                //replace target with html data back from server  
+           $newHtml.find("div.ResultHighlightRibbon").effect("highlight");                       //WHY DOES THIS ONLY WORK WITH -- <section class="content-wrapper main-content clear-fix">
+           
        
         });
 
@@ -68,7 +71,7 @@ $(function () {
 
     };
 
-          
+         ///PAGING
 
     var getPage = function () {
 
@@ -86,9 +89,12 @@ $(function () {
         $.ajax(options).done(function (data) {                 //pump options into ajax Async request  and DONE output DATA object
 
             var target = $a.parents("div.pagedList").attr("data-rmdb-target");  // target Anchors "pagedList Div" attribute and "data target"" attr? IE EXTRACTS RIDERLIST
-            var $newHtml = $(data);      
-            $(target).replaceWith($newHtml);    //replace target(s) with data from ajax method            
-            $newHtml.find("div.ResultHighlightRibbon").effect("highlight");  
+            var $newHtml = $(data);   
+
+        
+           
+         $(target).replaceWith($newHtml);    //replace target(s) with data from ajax method            
+         $newHtml.find("div.ResultHighlightRibbon").effect("highlight");  
 
 
         });
@@ -108,5 +114,15 @@ $(function () {
     //Main content class is never destroyed.. is part of layout and present every page
     $(".main-content").on("click", ".pagedList a", getPage);   //only register click events on main content and filter to pagedList anchor tags.
 
+
+
+
+
+
+
+
+  
+
+    
 
  });

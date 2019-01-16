@@ -219,3 +219,5 @@ C:\Users\test\source\repos\RaceMateDB\RaceMateDB\bin\Microsoft.Owin.Security.Goo
 C:\Users\test\source\repos\RaceMateDB\RaceMateDB\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\test\source\repos\RaceMateDB\RaceMateDB\obj\Debug\RaceMateDb.Migrations.test.resources
 C:\Users\test\source\repos\RaceMateDB\RaceMateDB\obj\Debug\RaceMateDB.csproj.GenerateResource.cache
+C:\Users\test\source\repos\RaceMateDB\RaceMateDB\obj\Debug\RaceMateDb.Migrations.AddRequiredAnnotationsForCourseModel.resources
+C:\Users\test\source\repos\RaceMateDB\RaceMateDB\obj\Debug\RaceMateDb.Migrations.AddRequiredAnnotationsForCourseModelv2.resources

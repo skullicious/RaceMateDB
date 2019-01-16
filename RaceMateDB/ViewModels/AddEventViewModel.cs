@@ -12,25 +12,23 @@ namespace RaceMateDB.ViewModels
     {
       
 
-        [Required]
+        [Required(ErrorMessage = "Please enter an event name..")]
         [Display(Name = "Event Name")]
         [StringLength(75)]
         public string EventName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select a valid date..")]
         [Display(Name = "Event Date")]
         public DateTime Date { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select a valid course..")]
         [Display(Name = "Course")]
         public string SelectedCourse { get; set; }
         public IEnumerable<SelectListItem> Courses { get; set; }
 
         
        
-        public int ResultId { get; set; }
-
-       
+        public int ResultId { get; set; }       
 
         public int? EventId { get; set; }
 

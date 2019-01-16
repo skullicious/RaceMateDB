@@ -23,7 +23,7 @@ namespace RaceMateDB.Controllers
         RMDBContext _db = new RMDBContext();
 
         //use a data- attribute to wire up this action
-        public ActionResult Autocomplete(string term) //term is supported paramater
+        public ActionResult Autocomplete(string term) //term is supported parameter
 
         {
             var model = _db.EventModels
@@ -73,7 +73,7 @@ namespace RaceMateDB.Controllers
         }
 
         // get: event
-        public ActionResult results(int id)
+        public ActionResult Results(int id)
         {
             var model = _db.ResultModels
                                         .OrderBy(e => e.Position)
@@ -96,21 +96,26 @@ namespace RaceMateDB.Controllers
         public ActionResult PredictedResults(int id)
         {          
             var modelList = new List<PredictedResultViewModel>();
-            
-            var data = _db.ResultModels                                        
+
+            var data = _db.ResultModels
                                         .Include(e => e.Event)
-                                        .Include(e => e.Rider)
-                                        .Where(i => i.Event.HasResult == true);
+                                        .Include(e => e.Rider);
+
+                            
             
 
             //Refactored code  below into PredictedResultLogic but I think this makes it harder to read?
 
+            //Definitely harder to troubleshoot!!! Change bacK?
+
             foreach (var item in data)
             {
-                PredictedResultLogic.GeneratePredictedResultModel(modelList, item);
+                PredictedResultLogic.GeneratePredictedResultModel(modelList, item, id);
             }
             //orderlist by predictedResults
-            var orderedModelList = modelList.OrderByDescending(r => r.ResultWeighting);            
+            var orderedModelList = modelList.OrderByDescending(r => r.ResultWeighting)
+                                    .Where(i => i.IsEntered == true);             //added this filter for troubleshooting.
+
 
             return View(orderedModelList);
         }
@@ -158,7 +163,7 @@ namespace RaceMateDB.Controllers
 
             }
 
-            return View(model);
+            return View(addEventViewModel);
 
         }
 

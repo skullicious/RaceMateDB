@@ -32,8 +32,17 @@ namespace RaceMateDB.ViewModels
         [Display(Name = "NumberOfResults")]
         public int NumberofResults { get; set; }
 
+        [Required]
+        [Display(Name = "IsEntered")]
+        public bool IsEntered { get; set; }
 
-        
+        [Required]
+        [Display(Name = "EventModelId")]
+        public int EventModelId { get; set; }
+
+
+
+
 
 
 

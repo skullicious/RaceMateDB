@@ -3,10 +3,25 @@
 
 <div id="eventList">
 
-    
+    <div class="pagedList" data-rmdb-target="#eventList">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
+       PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions()
+    { HttpMethod = "GET", UpdateTargetId = "eventList"}))                                @*   PagedListRenderOptions.MinimalWithItemCountText) *@
+
+</div>
+
+
+
+
+<div class="displayedResult">
 
     <table class="table">
         <tr>
+            <th>
+
+                FlairSpace
+
+            </th>
 
             <th>
                 @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
@@ -29,51 +44,101 @@
 
         @foreach (var item in Model)
         {
+
+
             <tr>
-
                 <td>
-                    <div class="ResultHighlightRibbon">
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </div>
+
+                    X
+
+                </td>
+                <td>
+
+                    @Html.DisplayFor(modelItem => item.Name)
+
                 </td>
 
                 <td>
-                    <div class="ResultHighlightRibbon">
-                        @Html.DisplayFor(modelItem => item.Date)
-                    </div>
+
+                    @Html.DisplayFor(modelItem => item.Date)
+
                 </td>
 
 
                 <td>
-                    <div class="ResultHighlightRibbon">
 
-                       
-                        @if (item.HasResult != true)
-                        {
+
+
+                    @if (item.HasResult != true)
+                    {
                         <text>|</text> @Html.ActionLink("View Predicted Results", "PredictedResults", new { id = item.Id }) <text>|</text>
-                        }
-                        
-                        @Html.ActionLink("Results", "Results", new { id = item.Id }) |
-                        @Html.ActionLink("View Course", "Details", "Course", new { id = item.CourseId }, null) |
+                    }
 
-                        @if (@User.IsInRole("Admin"))
-                        {
-                         @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <text>|</text>
-                         @Html.ActionLink("Delete", "Delete", new { id = item.Id }) <text>|</text>
-                        }
-                    </div>
+                    @Html.ActionLink("Results", "Results", new { id = item.Id }) |
+                    @Html.ActionLink("View Course", "Details", "Course", new { id = item.CourseId }, null) |
+
+                    @if (@User.IsInRole("Admin"))
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <text>|</text>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }) <text>|</text>
+                    }
+
                 </td>
+
+
             </tr>
+
+
         }
 
 
     </table>
-
-<div class="pagedList" data-rmdb-target="#eventList">
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
-   PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions()
-{ HttpMethod = "GET", UpdateTargetId = "eventList"}))                                @*   PagedListRenderOptions.MinimalWithItemCountText) *@
-
 </div>
 
-</div>
+
+
+
+<script>
+
+    var resultList = document.querySelector(".displayedResult");
+
+    resultList = (resultList.firstElementChild.firstElementChild.children);
+
+    console.log(resultList);
+
+    var currentDate = new Date();
+    console.log("CURRENT DATE:" + currentDate);
+
+    
+    
+
+    Array.from(resultList).forEach(function (item) {
+      
+        //navigate to eventDate
+        var eventDate = item.firstElementChild.nextElementSibling.nextElementSibling.textContent;
+
+        //format date to prepare for comparison
+        eventDate.trim();
+        eventDate = eventDate = eventDate.split('/');
+        newEventDate = eventDate[1] + '/' + eventDate[0] + '/' + eventDate[2] + ' ' + '23: 59: 59';      
+        eventDate = new Date(newEventDate);
+
+
+
+        //check if event is in the past - if so grey out the row       
+        if (currentDate > eventDate) {
+           
+            item.style.backgroundColor = '#f4f4f4';
+        }
+        
+
+    });
+    
+
+      
+
+   
+    
+
+
+</script>

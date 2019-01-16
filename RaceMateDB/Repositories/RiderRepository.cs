@@ -13,7 +13,7 @@ namespace RaceMateDB.Repositories
     {
 
 
-        public RiderEditViewModel EditRider()
+        public RiderEditViewModel EditRider(bool IsNew)
         {
             using (var _db = new RMDBContext())
 
@@ -21,10 +21,16 @@ namespace RaceMateDB.Repositories
                 var clubOrTeamRepo = new ClubOrTeamRepository();
 
                 var aRider = new RiderEditViewModel();
-                {                             
-               
-                aRider.ClubsOrTeams = clubOrTeamRepo.GetClubsOrTeams(false);
-                                        
+                {
+                    if (IsNew == true)
+                    {
+                        aRider.ClubsOrTeams = clubOrTeamRepo.GetClubsOrTeams(true);
+                    }
+
+                    else
+                    {
+                        aRider.ClubsOrTeams = clubOrTeamRepo.GetClubsOrTeams(false);
+                    }
                 };
 
                 return aRider;

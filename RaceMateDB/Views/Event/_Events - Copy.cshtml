@@ -1,0 +1,82 @@
+﻿@model IPagedList<EventModel>
+
+
+<div class="pagedList" data-rmdb-target="#eventList">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
+   PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions()
+{ HttpMethod = "GET", UpdateTargetId = "eventList"}))                                @*   PagedListRenderOptions.MinimalWithItemCountText) *@
+
+</div>
+
+
+<div id="eventList">
+
+    
+
+    <table class="table">
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Date)
+            </th>
+
+        </tr>
+
+
+        @if (@User.IsInRole("Admin"))
+        {
+            <text>|</text>@Html.ActionLink("Create New", "Create") <text>|</text>
+        }
+
+
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    <div class="ResultHighlightRibbon">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </div>
+                </td>
+
+                <td>
+                    <div class="ResultHighlightRibbon">
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </div>
+                </td>
+
+
+                <td>
+                    <div class="ResultHighlightRibbon">
+
+                       
+                        @if (item.HasResult != true)
+                        {
+                        <text>|</text> @Html.ActionLink("View Predicted Results", "PredictedResults", new { id = item.Id }) <text>|</text>
+                        }
+                        
+                        @Html.ActionLink("Results", "Results", new { id = item.Id }) |
+                        @Html.ActionLink("View Course", "Details", "Course", new { id = item.CourseId }, null) |
+
+                        @if (@User.IsInRole("Admin"))
+                        {
+                         @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <text>|</text>
+                         @Html.ActionLink("Delete", "Delete", new { id = item.Id }) <text>|</text>
+                        }
+                    </div>
+                </td>
+            </tr>
+        }
+
+
+    </table>
+
+
+
+</div>

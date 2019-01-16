@@ -5,38 +5,56 @@
     ViewBag.Title = "PredictedResults";
 }
 
-<h2>PredictedResults</h2>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.RiderName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NumberofResults)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ResultWeighting)
-        </th>
-       
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.RiderName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NumberofResults)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ResultWeighting)
-        </td>
-        <td>
-           | @Html.ActionLink("Rider Results", "ViewRiderEvents", "Rider", new { id = item.RiderID },null) |         
-        </td>
-    </tr>
+
+
+@{if (Model.FirstOrDefault() != null)
+    {
+
+        <h2>PredictedResults</h2>
+
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.RiderName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NumberofResults)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ResultWeighting)
+                </th>
+
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RiderName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumberofResults)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ResultWeighting)
+                    </td>
+                    <td>
+                        | @Html.ActionLink("Rider Results", "ViewRiderEvents", "Rider", new { id = item.RiderID }, null) |
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+    }
+
+    else
+    {
+        <h2> Sorry, no  one has entered this event yet... Please check back later... </h2>
+    }
+
+
 }
-
-</table>

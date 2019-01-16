@@ -11,13 +11,13 @@ namespace RaceMateDB.ViewModels
     {
         [Display(Name = "Rider Id")]
         public int RiderID { get; set; }
-        
-        [Required]
+
+        [Required(ErrorMessage = "Please enter the rider name..")]
         [Display(Name = "Rider Name")]
         [StringLength(75)]
         public string RiderName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select a club or team..")]
         [Display(Name = "Club or Team")]
         public string SelectedClubOrTeam { get; set; }
         public IEnumerable<SelectListItem> ClubsOrTeams {get; set;}

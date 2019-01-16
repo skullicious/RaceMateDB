@@ -2,11 +2,59 @@
     ViewBag.Title = "Home Page";
 }
 
+
+
+
+
 <header>
+
+  
+ 
+
     <h1>RaceMate @ViewBag.message</h1>
     <p class="lead">RaceMate is a free resource exclusively for cyclists in the UK looking for information on past or future events...</p>
 </header>
 
+<div class="main-banner" id="main-banner">
+
+
+    <div class="imgbanbtn imgbanbtn-prev" id="imgbanbtn-prev"></div>
+
+    <a href="~/Event">
+        <div class="imgban" id="imgban3">
+            <div class="imgban-box">
+                <h2>Events</h2>
+                <p>Plan your season..</p>
+            </div>
+        </div>
+        </a>
+
+
+    <a href="~/Course">
+        <div class="imgban" id="imgban2">
+            <div class="imgban-box">
+                <h2>Courses</h2>
+                <p>Perform a recce..</p>
+
+            </div>
+        </div>
+    </a>
+
+
+        <div class="imgbanbtn imgbanbtn-next" id="imgbanbtn-next"></div>
+
+        <a href="~/Rider">
+            <div class="imgban" id="imgban1">
+
+                <div class="imgban-box">
+
+                    <h2>Riders</h2>
+                    <p>Track your rivals.. </p>
+                </div>
+            </div>
+        </a>
+</div>
+   
 
 
 <div class="row">
@@ -28,3 +76,5 @@
         <p><a class="btn btn-default" href="~/Rider">Learn more &raquo;</a></p>
     </div>
 </div>
+
+

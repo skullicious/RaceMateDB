@@ -6755,3 +6755,18 @@ button.close {
   }
 }
 /*# sourceMappingURL=bootstrap.css.map */
+
+
+
+
+
+.first-icon {
+    /*background-image: url('./Images/Flair/Position/1.svg');*/
+    background-image: url('./Images/Banner/white-arrow-png-right.png');
+    background-repeat: no-repeat;
+    background-size: 10px;
+    width: 10px;
+    height: 10px;
+    cursor: pointer;
+}
+
